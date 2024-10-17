@@ -28,7 +28,7 @@ export class HelloUser extends LitElement {
   }
 
   render() {
-    return html`<p>Hello ${this.who}, Welcome!<p/>`;
+    return html`<p>Hello ${this.who}, Welcome again!<p/>`;
   }
 }
 
