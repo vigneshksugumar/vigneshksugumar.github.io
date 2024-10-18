@@ -38,7 +38,7 @@ export class HelloUser extends LitElement {
 
   render() {
     return this._productTask.render({
-      pending: () => html`<p>Loading groups...</p>`,
+      pending: () => html`<p>Loading groups 1.2...</p>`,
       complete: (product) => html`          
           <p>${product}</p>
         `,
