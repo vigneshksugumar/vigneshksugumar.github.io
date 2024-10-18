@@ -1,4 +1,4 @@
-import { html,LitElement} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
+import { html,LitElement, Task} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
 // define the component
 export class HelloUser extends LitElement {
   
@@ -22,8 +22,8 @@ export class HelloUser extends LitElement {
     };
   }
 
-  getTotalGroupsUserIs(url){
-      fetch(url, {
+  async function getTotalGroupsUserIs(url){
+      await fetch(url, {
           method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
         }).then(response => response.json()).then(data => {return html`${data.length}`;});    
   }
@@ -33,11 +33,23 @@ export class HelloUser extends LitElement {
     this.who = 'User';
   }
 
+  private _productTask = new Task(this, {
+    task: async ([who]) => {
+      const response = await fetch(`${who}`, {method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }});
+      if (!response.ok) { throw new Error(response.status); }
+      return response.json() as Product;
+    },
+    args: () => [this.who]
+  });
+
   render() {
-    return html`
-        <p>Hello ${this.who}, Welcome again 1.6!<p/>
-        <p>You have ${this.getTotalGroupsUserIs(this.who)} items</p>
-        `;
+    return this._productTask.render({
+      pending: () => html`<p>Loading groups...</p>`,
+      complete: (product) => html`          
+          <p>${product}</p>
+        `,
+      error: (e) => html`<p>Error: ${e}</p>`
+    });
   }
 }
 
