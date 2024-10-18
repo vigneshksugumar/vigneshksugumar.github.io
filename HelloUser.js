@@ -23,7 +23,9 @@ export class HelloUser extends LitElement {
   }
 
   getTotalGroupsUserIs(){
-    return html`8`;
+    fetch(this.who, {
+      method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
+    }).then(response => response.json()).then(data => console.log(data.length); return html`${data.length}`);    
   }
   
   constructor() {
