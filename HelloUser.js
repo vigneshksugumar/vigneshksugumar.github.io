@@ -11,7 +11,7 @@ export class HelloUser extends LitElement {
     return {
       controlName: 'Hello User',
       fallbackDisableSubmit: false,
-      version: '1.2',
+      version: '1.3',
       properties: {
         who: {
           type: 'string',
