@@ -21,12 +21,6 @@ export class HelloUser extends LitElement {
       }
     };
   }
-
-  async function getTotalGroupsUserIs(url){
-      await fetch(url, {
-          method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
-        }).then(response => response.json()).then(data => {return html`${data.length}`;});    
-  }
   
   constructor() {
     super();
