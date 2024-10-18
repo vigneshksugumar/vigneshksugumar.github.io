@@ -1,4 +1,4 @@
-import { html,LitElement, Task} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
+import { html,LitElement} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
 // define the component
 export class HelloUser extends LitElement {
   
@@ -22,12 +22,6 @@ export class HelloUser extends LitElement {
     };
   }
 
-  async function getTotalGroupsUserIs(url){
-      await fetch(url, {
-          method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
-        }).then(response => response.json()).then(data => {return html`${data.length}`;});    
-  }
-  
   constructor() {
     super();
     this.who = 'User';
@@ -36,7 +30,7 @@ export class HelloUser extends LitElement {
   render() {
     return html`
         <p>Hello ${this.who}, Welcome again 1.7!<p/>
-        <p>You have ${this.getTotalGroupsUserIs(this.who)} items</p>
+        <p>You have ${this.who} items</p>
         `;
   }
 }
