@@ -22,10 +22,10 @@ export class HelloUser extends LitElement {
     };
   }
 
-  getTotalGroupsUserIs(){
-    fetch(this.who, {
-      method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
-    }).then(response => response.json()).then(data => console.log(data.length); return html`${data.length}`);    
+  getTotalGroupsUserIs(url){
+      fetch(url, {
+          method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
+        }).then(response => response.json()).then(data => console.log(data.length));
   }
   
   constructor() {
