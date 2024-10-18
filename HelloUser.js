@@ -21,6 +21,10 @@ export class HelloUser extends LitElement {
       }
     };
   }
+
+  function getTotalGroupsUserIs(){
+    return 8;
+  }
   
   constructor() {
     super();
@@ -28,7 +32,7 @@ export class HelloUser extends LitElement {
   }
 
   render() {
-    return html`<p>Hello ${this.who}, Welcome again 1.2!<p/>`;
+    return html`<p>Hello ${this.who}, Welcome again 1.3!<p/><p>You have ${getTotalGroupsUserIs()} items`;
   }
 }
 
