@@ -36,7 +36,7 @@ export class HelloUser extends LitElement {
 
   render() {
     return html`
-        <p>Hello ${this.who}, Welcome again 1.5!<p/>
+        <p>Hello ${this.who}, Welcome again 1.6!<p/>
         <p>You have ${this.getTotalGroupsUserIs()} items</p>
         `;
   }
