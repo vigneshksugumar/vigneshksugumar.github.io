@@ -21,29 +21,23 @@ export class HelloUser extends LitElement {
       }
     };
   }
+
+  async function getTotalGroupsUserIs(url){
+      await fetch(url, {
+          method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
+        }).then(response => response.json()).then(data => {return html`${data.length}`;});    
+  }
   
   constructor() {
     super();
     this.who = 'User';
   }
 
-  private _productTask = new Task(this, {
-    task: async ([who]) => {
-      const response = await fetch(`${who}`, {method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }});
-      if (!response.ok) { throw new Error(response.status); }
-      return response.json() as Product;
-    },
-    args: () => [this.who]
-  });
-
   render() {
-    return this._productTask.render({
-      pending: () => html`<p>Loading groups 1.3...</p>`,
-      complete: (product) => html`          
-          <p>${product}</p>
-        `,
-      error: (e) => html`<p>Error: ${e}</p>`
-    });
+    return html`
+        <p>Hello ${this.who}, Welcome again 1.7!<p/>
+        <p>You have ${this.getTotalGroupsUserIs(this.who)} items</p>
+        `;
   }
 }
 
