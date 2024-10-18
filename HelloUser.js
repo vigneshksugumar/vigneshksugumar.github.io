@@ -1,61 +1,46 @@
-import { html, LitElement } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
-import { Task, TaskStatus } from 'https://cdn.jsdelivr.net/npm/@lit/task@1.0.1/+esm';
+import { html,LitElement, Task} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
 // define the component
-export class OnPremWebApiRequest extends LitElement {
+export class HelloUser extends LitElement {
   
   static properties = {
-    webApiUrl: {type: String},
-    userId: {type: String},
+    who: {type: String},
   };
   
   // return a promise for contract changes.
   static getMetaConfig() {
     return {
-      controlName: 'OnPrem Web Api Request',
+      controlName: 'Hello User',
       fallbackDisableSubmit: false,
-      version: '1.0',
+      version: '1.2',
       properties: {
-        webApiUrl: {
+        who: {
           type: 'string',
-          title: 'Web Api',
-          description: 'Provide Web Api Url'
-        },
-        userId: {
-          type: 'string',
-          title: 'User Id',
-          description: 'Provide User Id'
+          title: 'Who',
+          description: 'Who to say hello to today'
         }
       }
     };
   }
+
+  async function getTotalGroupsUserIs(url){
+      await fetch(url, {
+          method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
+        }).then(response => response.json()).then(data => {return html`${data.length}`;});    
+  }
   
   constructor() {
     super();
-    this.webApi = '';
-    this.userId = '';
+    this.who = 'User';
   }
-
-  private _apiTask = new Task(
-    this,
-    ([webApi, userId]) =>
-      fetch(`${webApi}?userid=${userId}`).then((response) =>
-        response.json()
-      ),
-    () => [this.webApi, this.userId]
-  );
 
   render() {
     return html`
-      <div>Groups Info</div>
-      ${this._apiTask.render({
-        pending: () => html`Loading group list...`,
-        complete: (group) => html`${group}`,
-      })}
-      <!-- ... -->
-    `;
+        <p>Hello ${this.who}, Welcome again 1.6!<p/>
+        <p>You have ${this.getTotalGroupsUserIs(this.who)} items</p>
+        `;
   }
 }
 
 // registering the web component
-const elementName = 'onpremwebapi-request';
-customElements.define(elementName, OnPremWebApiRequest);
+const elementName = 'hello-user';
+customElements.define(elementName, HelloUser);
