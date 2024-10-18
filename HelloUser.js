@@ -25,8 +25,7 @@ export class HelloUser extends LitElement {
   getTotalGroupsUserIs(url){
       fetch(url, {
           method: 'GET', headers: { 'Accept': "application/json;odata=verbose" }
-        }).then(response => response.json()).then(data => console.log(data.length));
-    return html`data`;
+        }).then(response => response.json()).then(data => {return html`${data.length}`;});    
   }
   
   constructor() {
