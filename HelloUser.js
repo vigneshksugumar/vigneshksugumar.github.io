@@ -22,7 +22,7 @@ export class HelloUser extends LitElement {
     };
   }
 
-  function getTotalGroupsUserIs(){
+  getTotalGroupsUserIs(){
     return 8;
   }
   
@@ -32,7 +32,7 @@ export class HelloUser extends LitElement {
   }
 
   render() {
-    return html`<p>Hello ${this.who}, Welcome again 1.3!<p/><p>You have ${getTotalGroupsUserIs()} items`;
+    return html`<p>Hello ${this.who}, Welcome again 1.3!<p/><p>You have 9 items`;
   }
 }
 
