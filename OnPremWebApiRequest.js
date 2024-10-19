@@ -26,7 +26,7 @@ export class OnPremWebApiRequest extends LitElement {
   constructTemplate(items){
      const itemTemplates = [];
       for (const i of items) {
-        itemTemplates.push(html`<li>${i}</li>`);
+        itemTemplates.push(html`<li>${i.mnemonic}</li>`);
       }
 
       return html`
@@ -36,7 +36,8 @@ export class OnPremWebApiRequest extends LitElement {
   }
   
   async load() {
-    const response = await fetch(`${this.webApi}`);
+    var headers = { 'Username' : ''}
+    const response = await fetch(`${this.webApi}`, {headers : headers});
     const responseBody = await response.json();
     this.message = html`${this.constructTemplate(responseBody)}`
   }
