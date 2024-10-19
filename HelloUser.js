@@ -29,7 +29,7 @@ export class HelloUser extends LitElement {
 
   render() {
     return html`
-        <p>Hello ${this.who}, Welcome again 1.10!<p/>        
+        <p>Hello ${this.who}, Welcome again 1.11!<p/>        
         `;
   }
 }
