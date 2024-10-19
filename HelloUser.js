@@ -29,7 +29,7 @@ export class HelloUser extends LitElement {
     this.who = 'User';
   }
 
-  _handleClick(e) {
+  onChange(e) {
     const args = {
         bubbles: true,
         cancelable: false,
@@ -38,15 +38,14 @@ export class HelloUser extends LitElement {
         detail: e,
     };
     const event = new CustomEvent('ntx-value-change', args);
-    this.dispatchEvent(event);
+    this.dispatchEvent(e.target.value);
     console.log(e);
 }
 
   render() {
     return html`
         <p>Hello ${this.who}, Welcome again 1.15!<p/>  
-        <input type="radio" id="star5" name="rate" value="5" @click=${() => this._handleClick(5)} />
-        <label for="star5" title="text">5 stars</label>
+        <input id="simpleInput" type="text" value="${this.who}" @change=${() => this.onChange()} />        
         `;
   }
 }
