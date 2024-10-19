@@ -4,8 +4,7 @@ export class OnPremWebApiRequest extends LitElement {
   
   static properties = {
     webApi: {type: String},
-    message: { type: String },
-    class: { type: String }
+    message: { type: String }    
   }  
   
   // return a promise for contract changes.
@@ -25,9 +24,9 @@ export class OnPremWebApiRequest extends LitElement {
   } 
   
   async load() {
-    const response = await fetch('https://api.sampleapis.com/coffee/hot');
+    const response = await fetch(`${this.webApi}`);
     const responseBody = await response.json();
-    this.message = `Hello, ${responseBody[1].title}!`
+    this.message = `Hello, ${responseBody.length}!`
   }
 
   async connectedCallback() {
@@ -39,11 +38,11 @@ export class OnPremWebApiRequest extends LitElement {
   constructor() {
     super()
     this.message = '';
-    this.class = 'color-red';    
+    this.webApi = '';    
   }
 
   render() {
-    return html`<p class="${this.class}">${this.message}</p>`
+    return html`<p>Total Groups are ${this.message}</p>`
   }  
 }
 
