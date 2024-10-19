@@ -54,7 +54,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   render() {
-    return html`<p>Total Groups are ${this.message}</p>`
+    return html`<div>${this.message}</div>`
   }  
 }
 
