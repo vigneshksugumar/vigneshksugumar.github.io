@@ -38,7 +38,7 @@ export class HelloUser extends LitElement {
         detail: e,
     };
     const event = new CustomEvent('ntx-value-change', args);
-    this.dispatchEvent(e.target.value);
+    this.dispatchEvent(e);
     console.log(e);
 }
 
