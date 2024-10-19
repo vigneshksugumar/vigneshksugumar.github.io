@@ -16,9 +16,11 @@ export class HelloUser extends LitElement {
         who: {
           type: 'string',
           title: 'Who',
-          description: 'Who to say hello to today'
+          description: 'Who to say hello to today',
+          isValueField: true
         }
-      }
+      },
+      events: ["ntx-value-change"],
     };
   } 
   
@@ -27,9 +29,21 @@ export class HelloUser extends LitElement {
     this.who = 'User';
   }
 
+  onChange(e) {
+    const args = {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        // value coming from input change event. 
+        detail: e.target.value,
+    };
+    const event = new CustomEvent('ntx-value-change', args);
+    this.dispatchEvent(event);
+}
+
   render() {
     return html`
-        <p>Hello ${this.who}, Welcome again 1.12!<p/>        
+        <p>Hello ${this.who}, Welcome again 1.14!<p/>        
         `;
   }
 }
