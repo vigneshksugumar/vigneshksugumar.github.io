@@ -35,11 +35,18 @@ export class OnPremWebApiRequest extends LitElement {
       `;
   }
   
-  async load() {
+  async loadOld() {
     var headers = { 'Username' : ''}
     const response = await fetch(`${this.webApi}`, {headers : headers});
     const responseBody = await response.json();
     this.message = html`${this.constructTemplate(responseBody)}`
+  }
+
+  async load() {
+    var headers = { 'Username' : ''}
+    const response = await fetch(`${this.webApi}`, {headers : headers});
+    const responseBody = await response.text();
+    this.message = html`${responseBody}`
   }
 
   async connectedCallback() {
