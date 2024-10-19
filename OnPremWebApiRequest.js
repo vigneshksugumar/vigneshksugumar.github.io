@@ -1,6 +1,6 @@
-import { html,LitElement} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
+import { html,LitElement } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
 // define the component
-export class HelloUser extends LitElement {
+export class OnPremWebApiRequest extends LitElement {
   
   static properties = {
     who: {type: String},
@@ -9,9 +9,9 @@ export class HelloUser extends LitElement {
   // return a promise for contract changes.
   static getMetaConfig() {
     return {
-      controlName: 'Hello User',
+      controlName: 'OnPrem WebApi Request',
       fallbackDisableSubmit: false,
-      version: '1.3',
+      version: '1.2',
       properties: {
         who: {
           type: 'string',
@@ -20,8 +20,8 @@ export class HelloUser extends LitElement {
         }
       }
     };
-  }
-
+  } 
+  
   constructor() {
     super();
     this.who = 'User';
@@ -29,12 +29,11 @@ export class HelloUser extends LitElement {
 
   render() {
     return html`
-        <p>Hello ${this.who}, Welcome again 1.7!<p/>
-        <p>You have ${this.who} items</p>
+        <p>Hello ${this.who}, Welcome again 1.7!<p/>        
         `;
   }
 }
 
 // registering the web component
-const elementName = 'hello-user';
-customElements.define(elementName, HelloUser);
+const elementName = 'onprem-webapi-request';
+customElements.define(elementName, OnPremWebApiRequest);
