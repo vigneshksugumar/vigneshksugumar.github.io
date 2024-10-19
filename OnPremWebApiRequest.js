@@ -28,11 +28,26 @@ export class OnPremWebApiRequest extends LitElement {
     this.webApi = '';
   }
 
+  private _apiTask = new Task(
+    this,
+    ([webApi]) =>
+      fetch(`${webApi}`).then((response) =>
+        response.json()
+      ),
+    () => [this.webApi]
+  );
+
   render() {
     return html`
-        <p>Hello ${this.webApi}, Welcome again 1.1!<p/>        
-        `;
+      <div>User Info</div>
+      ${this._apiTask.render({
+        pending: () => html`Loading user info...`,
+        complete: (user) => html`${user.length}`,
+      })}
+      <!-- ... -->
+    `;
   }
+  
 }
 
 // registering the web component
