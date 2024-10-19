@@ -1,5 +1,5 @@
 import { html,LitElement } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
-import { Task, TaskStatus } from 'https://cdn.jsdelivr.net/npm/@lit/task@1.0.1/+esm';
+import { Task, TaskStatus } from '@lit/task';
 // define the component
 export class OnPremWebApiRequest extends LitElement {
   
