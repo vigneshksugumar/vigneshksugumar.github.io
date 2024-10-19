@@ -22,11 +22,23 @@ export class OnPremWebApiRequest extends LitElement {
       }
     };
   } 
+
+  constructTemplate(items){
+     const itemTemplates = [];
+      for (const i of items) {
+        itemTemplates.push(html`<li>${i}</li>`);
+      }
+
+      return html`
+        <p>Total Groups: <b>${items.length}</b></p>
+        <ul>${itemTemplates}</ul>
+      `;
+  }
   
   async load() {
     const response = await fetch(`${this.webApi}`);
     const responseBody = await response.json();
-    this.message = `Hello, ${responseBody.length}!`
+    this.message = html`${this.constructTemplate(responseBody)}`
   }
 
   async connectedCallback() {
