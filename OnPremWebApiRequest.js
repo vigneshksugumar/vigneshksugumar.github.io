@@ -28,24 +28,19 @@ export class OnPremWebApiRequest extends LitElement {
     this.webApi = '';
   }
 
-  private _apiTask = new Task(
-    this,
-    ([webApi]) =>
-      fetch(`${webApi}`).then((response) =>
-        response.json()
-      ),
-    () => [this.webApi]
-  );
+  async function fetchMoviesJSON() {
+    const response = await fetch(`${this.webApi}`);
+    const movies = await response.json();
+    return movies;
+  }    
 
   render() {
-    return html`
-      <div>User Info</div>
-      ${this._apiTask.render({
-        pending: () => html`Loading user info...`,
-        complete: (user) => html`${user.length}`,
-      })}
-      <!-- ... -->
+    fetchMoviesJSON().then(user => {      
+      return html`
+      <p>Data</p>
+      <p>${user.length}</p>      
     `;
+    });    
   }
   
 }
