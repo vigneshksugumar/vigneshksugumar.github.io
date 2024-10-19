@@ -1,9 +1,10 @@
 import { html,LitElement } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
+import { Task, TaskStatus } from 'https://cdn.jsdelivr.net/npm/@lit/task@1.0.1/+esm';
 // define the component
 export class OnPremWebApiRequest extends LitElement {
   
   static properties = {
-    who: {type: String},
+    webApi: {type: String},
   };
   
   // return a promise for contract changes.
@@ -13,10 +14,10 @@ export class OnPremWebApiRequest extends LitElement {
       fallbackDisableSubmit: false,
       version: '1.2',
       properties: {
-        who: {
+        webApi: {
           type: 'string',
-          title: 'Who',
-          description: 'Who to say hello to today'
+          title: 'webApi',
+          description: 'Api Url'
         }
       }
     };
@@ -24,12 +25,12 @@ export class OnPremWebApiRequest extends LitElement {
   
   constructor() {
     super();
-    this.who = 'User';
+    this.webApi = '';
   }
 
   render() {
     return html`
-        <p>Hello ${this.who}, Welcome again 1.7!<p/>        
+        <p>Hello ${this.webApi}, Welcome again 1.1!<p/>        
         `;
   }
 }
