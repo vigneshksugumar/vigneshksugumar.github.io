@@ -10,6 +10,7 @@ export class OnPremWebApiRequest extends LitElement {
   // return a promise for contract changes.
   static getMetaConfig() {
     return {
+      groupName : "In DEV - Do Not Use",
       controlName: 'OnPrem WebApi Request',
       fallbackDisableSubmit: false,
       version: '1.2',
