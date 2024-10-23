@@ -44,7 +44,7 @@ export class HelloUser extends LitElement {
 
   render() {
     return html`
-        <p>Hello ${this.who}, Welcome again 1.22!<p/>  
+        <p>Hello ${this.who}, Welcome again 1.23!</p>
         <input id="simpleInput" type="text" value="${this.who}" @change=${() => this.onChange()} />        
         `;
   }
