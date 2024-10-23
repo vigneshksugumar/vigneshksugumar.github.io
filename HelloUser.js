@@ -1,55 +1,28 @@
-import { html,LitElement } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
-
-export class HelloUser extends LitElement {
-  
+import {LitElement, html} from 'lit';
+export class MyPlugin extends LitElement {
   static properties = {
-    who: {type: String},
+    message: {},
   };
-  
-  // return a promise for contract changes.
-  static getMetaConfig() {
-    return {
-      controlName: 'Hello User',
-      fallbackDisableSubmit: false,
-      version: '1.2',
-      properties: {
-        who: {
-          type: 'string',
-          title: 'Who',
-          description: 'Who to say hello to today',
-          isValueField: true
-        }
-      },
-      events: ["ntx-value-change"],
-    };
-  } 
-  
+
+  static styles = css`
+    .highlight {
+      font-weight: 700;
+      color: #E8960A;
+  }
+`;
+
   constructor() {
     super();
-    this.who = 'User1';
+    this.message = 'Hello World';
   }
-
-  onChange(e) {
-    const args = {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        // value coming from input change event. 
-        detail: e,
-    };
-    const event = new CustomEvent('ntx-value-change', args);
-    this.dispatchEvent(e);
-    console.log(e);
-}
 
   render() {
     return html`
-        <p>Hello ${this.who}, Welcome again 1.32!</p>
-        <input id="simpleInput" type="text" value="${this.who}" @change=${() => this.onChange()} />        
-        `;
+      <div id="pluginDiv">
+        <p><input type="text" value="${this.message}" /></p>
+        <p>This is my message ${this.message}.</p>
+      </div>
+	`;
   }
 }
-
-// registering the web component
-const elementName = 'hello-user';
-customElements.define(elementName, HelloUser);
+customElements.define('hello-user', MyPlugin);
