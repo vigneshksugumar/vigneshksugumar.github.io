@@ -1,6 +1,5 @@
 import { html,LitElement } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
 
-@customElement('hello-user')
 export class HelloUser extends LitElement {
   
   static properties = {
@@ -50,3 +49,7 @@ export class HelloUser extends LitElement {
         `;
   }
 }
+
+// registering the web component
+const elementName = 'hello-user';
+customElements.define(elementName, HelloUser);
