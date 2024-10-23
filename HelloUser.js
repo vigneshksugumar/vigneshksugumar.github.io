@@ -1,5 +1,6 @@
 import { html,LitElement } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
-// define the component
+
+@customElement('my-plugin')
 export class HelloUser extends LitElement {
   
   static properties = {
@@ -26,7 +27,7 @@ export class HelloUser extends LitElement {
   
   constructor() {
     super();
-    this.who = 'User';
+    this.who = 'User1';
   }
 
   onChange(e) {
@@ -44,7 +45,7 @@ export class HelloUser extends LitElement {
 
   render() {
     return html`
-        <p>Hello ${this.who}, Welcome again 1.31!</p>
+        <p>Hello ${this.who}, Welcome again 1.32!</p>
         <input id="simpleInput" type="text" value="${this.who}" @change=${() => this.onChange()} />        
         `;
   }
