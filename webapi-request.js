@@ -35,12 +35,12 @@ export class OnPremWebApiRequest extends LitElement {
             description: 'Provide headers as json object',
             defaultValue: "{ Accept:application/json }"
         },
-        headers: {
+        isIntegratedAuth: {
           type: 'boolean',
           title: 'Is Integrated Authentication',
           description: 'Check yes for Windows Integrated Auth',
           defaultValue: false
-      },
+        },
         jsonPath: {
             type: 'string',
             title: 'JSON Path',
