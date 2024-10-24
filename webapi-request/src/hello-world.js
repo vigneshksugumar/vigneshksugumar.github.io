@@ -1,7 +1,7 @@
-import { LitElement, css, html } from 'lit'
+import {LitElement, css, html} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
 
 export class HelloWorld extends LitElement {
-  
+
   static properties = {
     message: {},
   };
