@@ -60,9 +60,9 @@ export class OnPremWebApiRequest extends LitElement {
 
   constructor() {    
     super()    
-    console.log(this.webApi)
+    console.log(this.webApiUrl)
     this.message = 'Loading...';
-    this.webApi = '';    
+    this.webApiUrl = '';    
   }
 
   constructTemplate(items){
@@ -84,14 +84,14 @@ export class OnPremWebApiRequest extends LitElement {
       fetchAttributes = {"headers" : headers, "credentials" : "include"}
     }
 
-    const response = await fetch(`${this.webApi}`, fetchAttributes);
+    const response = await fetch(`${this.webApiUrl}`, fetchAttributes);
     const responseBody = await response.json();
     this.message = html`${this.constructTemplate(responseBody)}`
   }
 
   async connectedCallback() {
     super.connectedCallback();    
-    if(this.webApi){
+    if(this.webApiUrl){
         await this.loadWebApi();
     }    
   }
