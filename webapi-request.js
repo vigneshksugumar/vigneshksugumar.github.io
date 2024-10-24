@@ -62,7 +62,7 @@ export class OnPremWebApiRequest extends LitElement {
     super()    
     console.log(this.webApi)
     this.message = 'Loading...';
-    this.webApi = 'https://api.sampleapis.com/coffee/hot';    
+    this.webApi = '';    
   }
 
   constructTemplate(items){
