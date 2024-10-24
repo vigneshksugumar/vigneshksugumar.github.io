@@ -4,6 +4,7 @@ export class OnPremWebApiRequest extends LitElement {
   
   static properties = {
     initialText: {type: String},
+    message : {type: String},
     webApiUrl: {type: String},
     headers: {type: String},
     isIntegratedAuth: {type: Boolean},
