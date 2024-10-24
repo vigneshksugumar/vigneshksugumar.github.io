@@ -59,7 +59,7 @@ export class OnPremWebApiRequest extends LitElement {
 
   constructor() {
     super()    
-    this.message = '';
+    this.message = 'Loading...';
     this.webApi = 'https://api.sampleapis.com/coffee/hot';    
   }
 
@@ -88,8 +88,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   async connectedCallback() {
-    super.connectedCallback();
-    this.initialText = 'Loading...';
+    super.connectedCallback();    
     if(this.webApi){
         await this.loadWebApi();
     }    
@@ -97,7 +96,7 @@ export class OnPremWebApiRequest extends LitElement {
         
   render() {
     return html`        
-        <div>${this.initialText}</div>
+        <div>${this.message}</div>
     `
   }  
 }
