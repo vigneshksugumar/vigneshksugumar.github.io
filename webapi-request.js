@@ -15,13 +15,18 @@ export class OnPremWebApiRequest extends LitElement {
     return {
       groupName : "In DEV - Do Not Use",
       controlName: 'WebApi Request',
+      description : 'Make Web Api request including OnPrem',
+      iconUrl : 'data-lookup',
+      searchTerms : ['web', 'webapi', 'pnc'],
       fallbackDisableSubmit: false,
       version: '1.2',
       properties: {
         webApiUrl: {
           type: 'string',
           title: 'WebApi Url',
-          description: 'Provide Web api Url'
+          description: 'Provide Web api Url',
+          required : true,
+          defaultValue : 'https://api.sampleapis.com/coffee/hot'
         },
         headers: {
             type: 'string',
@@ -39,12 +44,7 @@ export class OnPremWebApiRequest extends LitElement {
             title: 'Output Type',
             enum: ['string', 'boolean', 'number', 'choice', 'object'],
             description: 'Provide output type to be used in rules or variables',
-            defaultValue: 'Option A'
-        },
-        outputValue: {
-            type: 'string',
-            title: 'Output Value',
-            description: 'Provide output value to be used in rules or variables'
+            defaultValue: 'string'
         }
       }
     };
