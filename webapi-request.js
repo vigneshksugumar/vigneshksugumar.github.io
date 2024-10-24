@@ -6,6 +6,7 @@ export class OnPremWebApiRequest extends LitElement {
     initialText: {type: String},
     webApiUrl: {type: String},
     headers: {type: String},
+    isIntegratedAuth: {type: Boolean},
     jsonPath: {type: String},
     outputType: {type: String},
     outputValue: { type: String }    
@@ -34,6 +35,12 @@ export class OnPremWebApiRequest extends LitElement {
             description: 'Provide headers as json object',
             defaultValue: "{ Accept:application/json }"
         },
+        headers: {
+          type: 'boolean',
+          title: 'Is Integrated Authentication',
+          description: 'Check yes for Windows Integrated Auth',
+          defaultValue: false
+      },
         jsonPath: {
             type: 'string',
             title: 'JSON Path',
@@ -63,8 +70,13 @@ export class OnPremWebApiRequest extends LitElement {
   }
   
   async loadWebApi() {
-    var headers = { 'accept' : 'application/json'}
-    const response = await fetch(`${this.webApi}`, {"headers" : headers, "credentials" : "include"});
+    var headers = { 'accept' : 'application/json'}    
+    var fetchAttributes = {"headers" : headers};
+    if(this.isIntegratedAuth){
+      fetchAttributes = {"headers" : headers, "credentials" : "include"}
+    }
+
+    const response = await fetch(`${this.webApi}`, fetchAttributes);
     const responseBody = await response.json();
     this.message = html`${this.constructTemplate(responseBody)}`
   }
