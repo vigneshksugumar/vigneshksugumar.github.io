@@ -64,10 +64,16 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   constructTemplate(items){
-      return html`
-        <p>User Name: <b>${items.fullName}</b></p>        
-      `;
-  }
+    const itemTemplates = [];
+     for (const i of items) {
+       itemTemplates.push(html`<li>${i.title}</li>`);
+     }
+
+     return html`
+       <p>Total Items: <b>${items.length}</b></p>
+       <ul>${itemTemplates}</ul>
+     `;
+ }
   
   async loadWebApi() {
     var headers = { 'accept' : 'application/json'}    
