@@ -58,9 +58,9 @@ export class OnPremWebApiRequest extends LitElement {
     };
   } 
 
-  constructor() {
-    console.log(this.webApi)
+  constructor() {    
     super()    
+    console.log(this.webApi)
     this.message = 'Loading...';
     this.webApi = 'https://api.sampleapis.com/coffee/hot';    
   }
