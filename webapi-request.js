@@ -14,7 +14,7 @@ export class OnPremWebApiRequest extends LitElement {
   static getMetaConfig() {
     return {
       groupName : "In DEV - Do Not Use",
-      controlName: 'OnPrem WebApi',
+      controlName: 'WebApi Request',
       fallbackDisableSubmit: false,
       version: '1.2',
       properties: {
@@ -26,7 +26,8 @@ export class OnPremWebApiRequest extends LitElement {
         headers: {
             type: 'string',
             title: 'Request header',
-            description: 'Provide headers as json object'
+            description: 'Provide headers as json object',
+            defaultValue: "{ Accept:application/json }"
         },
         jsonPath: {
             type: 'string',
@@ -36,7 +37,9 @@ export class OnPremWebApiRequest extends LitElement {
         outputType: {
             type: 'string',
             title: 'Output Type',
-            description: 'Provide output type to be used in rules or variables'
+            enum: ['string', 'boolean', 'number', 'choice', 'object'],
+            description: 'Provide output type to be used in rules or variables',
+            defaultValue: 'Option A'
         },
         outputValue: {
             type: 'string',
