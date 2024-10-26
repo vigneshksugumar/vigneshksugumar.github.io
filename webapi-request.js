@@ -90,16 +90,16 @@ export class OnPremWebApiRequest extends LitElement {
       fetchAttributes = {"headers" : headers, "credentials" : "include"}
     }
 
-    const response = await fetch(`${this.webApiUrl}`, fetchAttributes);
-    const jsonBody = await response.json();
+    var response = await fetch(`${this.webApiUrl}`, fetchAttributes);
+    var jsonBody = await response.json();
     jsonBody = this.filterJson(jsonBody);
     this.message = html`${this.constructTemplate(jsonBody)}`
   }
 
   constructTemplate(items){
     console.log(`constructTemplate - ${this.webApiUrl}`)
-    const itemTemplates = [];
-     for (const i of items) {
+    var itemTemplates = [];
+     for (var i of items) {
        itemTemplates.push(html`<li>${i.title}</li>`);
      }
 
