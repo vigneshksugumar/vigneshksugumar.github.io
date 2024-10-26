@@ -74,7 +74,7 @@ export class OnPremWebApiRequest extends LitElement {
   async connectedCallback() {
     super.connectedCallback();
     if(this.webApiUrl){
-      if(isValidJSON(this.headers)){
+      if(this.isValidJSON(this.headers)){
         await this.loadWebApi();         
       }
       else{
