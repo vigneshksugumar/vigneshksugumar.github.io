@@ -109,7 +109,7 @@ export class OnPremWebApiRequest extends LitElement {
     }    
     if(jsonData){ 
         var result = JSONPath({path: this.jsonPath, json: jsonData});        
-        if (result.length == 1 && $scope.jsonPath.endsWith(".")) {
+        if (result.length == 1 && this.jsonPath.endsWith(".")) {
             result = result[0]
           }
         console.log(result);
