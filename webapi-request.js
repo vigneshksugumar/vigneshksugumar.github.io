@@ -86,8 +86,7 @@ export class OnPremWebApiRequest extends LitElement {
     }
 
     var response = await fetch(`${this.webApiUrl}`, fetchAttributes);
-    var jsonBody = await response.json();
-    console.log(jsonBody)
+    var jsonBody = await response.json();    
     jsonBody = this.filterJson(jsonBody);
     this.message = html`${this.constructTemplate(jsonBody)}`
   }
@@ -104,15 +103,11 @@ export class OnPremWebApiRequest extends LitElement {
      `;
   }
 
-  filterJson(jsonData){    
-    console.log(this.jsonPath)
+  filterJson(jsonData){            
     if(!this.jsonPath){
       this.jsonPath = "$."
-    }
-    console.log(this.jsonPath)
-    if(this.jsonData){ 
-        console.log(this.jsonPath)       
-        console.log(this.jsonData)
+    }    
+    if(jsonData){ 
         var result = JSONPath({path: this.jsonPath, json: jsonData});        
         if (result.length == 1 && $scope.jsonPath.endsWith(".")) {
             result = result[0]
