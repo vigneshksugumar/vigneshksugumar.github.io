@@ -60,25 +60,29 @@ export class OnPremWebApiRequest extends LitElement {
 
   constructor() {    
     super()    
-    console.log(this.webApiUrl)
+    console.log(`constructor - ${this.webApiUrl}`)
     this.message = 'Loading...';
     this.webApi = '';    
   }
 
   render() {
+    console.log(`render - ${this.webApiUrl}`)
     return html`        
         <div>${this.message}</div>
     `
   }
 
   async connectedCallback() {
+    console.log(`before connectedCallback - ${this.webApiUrl}`)
     super.connectedCallback();    
+    console.log(`after connectedCallback - ${this.webApiUrl}`)
     if(this.webApi){
         await this.loadWebApi();
     }    
   }
 
   async loadWebApi() {
+    console.log(`loadWebApi - ${this.webApiUrl}`)
     var headers = { 'accept' : 'application/json'}    
     var fetchAttributes = {"headers" : headers};
     if(this.isIntegratedAuth){
@@ -92,6 +96,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   constructTemplate(items){
+    console.log(`constructTemplate - ${this.webApiUrl}`)
     const itemTemplates = [];
      for (const i of items) {
        itemTemplates.push(html`<li>${i.title}</li>`);
@@ -104,6 +109,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   filterJson(jsonData){
+    console.log(`filterJson - ${this.webApiUrl}`)
     if(jsonData){        
         var result = JSONPath.JSONPath({path: this.jsonPath, json: jsonData});        
         if (result.length == 1 && $scope.jsonPath.endsWith(".")) {
