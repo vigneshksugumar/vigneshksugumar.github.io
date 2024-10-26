@@ -94,14 +94,19 @@ export class OnPremWebApiRequest extends LitElement {
     }
 
     var response = await fetch(`${this.webApiUrl}`, fetchAttributes);
-    console.log(response);
-    var jsonBody = await response.json(); 
-    if(this.isValidJSON(jsonData)) {
-      jsonBody = this.filterJson(jsonBody);
-      this.message = html`${this.constructTemplate(jsonBody)}`
+    if(response.status == 200){
+      console.log(response);
+      var jsonBody = await response.json(); 
+      if(this.isValidJSON(jsonBody)) {
+        jsonBody = this.filterJson(jsonBody);
+        this.message = html`${this.constructTemplate(jsonBody)}`
+      }
+      else{
+        this.message = html`Invalid JSON response`
+      }
     }
     else{
-      this.message = html`Invalid JSON response`
+      this.message = html`WebApi request failed: ${response.status} - ${response.statusText}`
     }
     
   }
