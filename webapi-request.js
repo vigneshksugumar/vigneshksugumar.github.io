@@ -76,7 +76,7 @@ export class OnPremWebApiRequest extends LitElement {
     console.log(`before connectedCallback - ${this.webApiUrl}`)
     super.connectedCallback();    
     console.log(`after connectedCallback - ${this.webApiUrl}`)
-    if(this.webApi){
+    if(this.webApiUrl){
         await this.loadWebApi();
     }    
   }
