@@ -61,7 +61,33 @@ export class OnPremWebApiRequest extends LitElement {
   constructor() {
     super()    
     this.message = 'Loading...';
-    this.webApi = 'https://api.sampleapis.com/coffee/hot';    
+    this.webApi = '';    
+  }
+
+  render() {
+    return html`        
+        <div>${this.message}</div>
+    `
+  }
+
+  async connectedCallback() {
+    super.connectedCallback();    
+    if(this.webApi){
+        await this.loadWebApi();
+    }    
+  }
+
+  async loadWebApi() {
+    var headers = { 'accept' : 'application/json'}    
+    var fetchAttributes = {"headers" : headers};
+    if(this.isIntegratedAuth){
+      fetchAttributes = {"headers" : headers, "credentials" : "include"}
+    }
+
+    const response = await fetch(`${this.webApi}`, fetchAttributes);
+    const jsonBody = await response.json();
+    jsonBody = filterJson(jsonBody);
+    this.message = html`${this.constructTemplate(jsonBody)}`
   }
 
   constructTemplate(items){
@@ -74,32 +100,19 @@ export class OnPremWebApiRequest extends LitElement {
        <p>Total Items: <b>${items.length}</b></p>
        <ul>${itemTemplates}</ul>
      `;
- }
-  
-  async loadWebApi() {
-    var headers = { 'accept' : 'application/json'}    
-    var fetchAttributes = {"headers" : headers};
-    if(this.isIntegratedAuth){
-      fetchAttributes = {"headers" : headers, "credentials" : "include"}
+  }
+
+  filterJson(jsonData){
+    if(jsonData){        
+        var result = JSONPath.JSONPath({path: this.jsonPath, json: jsonData});        
+        if (result.length == 1 && $scope.jsonPath.endsWith(".")) {
+            result = result[0]
+          }
+        console.log(result);
+        return result;
     }
-
-    const response = await fetch(`${this.webApi}`, fetchAttributes);
-    const responseBody = await response.json();
-    this.message = html`${this.constructTemplate(responseBody)}`
   }
-
-  async connectedCallback() {
-    super.connectedCallback();    
-    if(this.webApi){
-        await this.loadWebApi();
-    }    
-  }
-        
-  render() {
-    return html`        
-        <div>${this.message}</div>
-    `
-  }  
+    
 }
 
 customElements.define('webapi-request', OnPremWebApiRequest);
