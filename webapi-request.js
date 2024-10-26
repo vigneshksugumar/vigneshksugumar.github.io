@@ -104,9 +104,11 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   filterJson(jsonData){    
+    console.log(this.jsonPath)
     if(!this.jsonPath){
       this.jsonPath = "$."
     }
+    console.log(this.jsonPath)
     if(this.jsonData){ 
         console.log(this.jsonPath)       
         console.log(this.jsonData)
