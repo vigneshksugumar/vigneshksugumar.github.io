@@ -112,7 +112,7 @@ export class OnPremWebApiRequest extends LitElement {
   filterJson(jsonData){
     console.log(`filterJson - ${this.webApiUrl}`)
     if(jsonData){        
-        var result = JSONPath.JSONPath({path: this.jsonPath, json: jsonData});        
+        var result = JSONPath({path: this.jsonPath, json: jsonData});        
         if (result.length == 1 && $scope.jsonPath.endsWith(".")) {
             result = result[0]
           }
