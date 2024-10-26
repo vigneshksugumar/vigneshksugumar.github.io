@@ -72,10 +72,18 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   async connectedCallback() {
-    super.connectedCallback();    
+    super.connectedCallback();
     if(this.webApiUrl){
-        await this.loadWebApi();
-    }    
+      if(isValidJSON(this.headers)){
+        await this.loadWebApi();         
+      }
+      else{
+        this.message = html`Invalid Headers`
+      }       
+    }
+    else{
+      this.message = html`Invalid WebApi Url`      
+    }        
   }
 
   async loadWebApi() {
@@ -86,9 +94,16 @@ export class OnPremWebApiRequest extends LitElement {
     }
 
     var response = await fetch(`${this.webApiUrl}`, fetchAttributes);
-    var jsonBody = await response.json();    
-    jsonBody = this.filterJson(jsonBody);
-    this.message = html`${this.constructTemplate(jsonBody)}`
+    console.log(response);
+    var jsonBody = await response.json(); 
+    if(this.isValidJSON(jsonData)) {
+      jsonBody = this.filterJson(jsonBody);
+      this.message = html`${this.constructTemplate(jsonBody)}`
+    }
+    else{
+      this.message = html`Invalid JSON response`
+    }
+    
   }
 
   constructTemplate(items){
@@ -106,14 +121,22 @@ export class OnPremWebApiRequest extends LitElement {
   filterJson(jsonData){            
     if(!this.jsonPath){
       this.jsonPath = "$."
-    }    
+    }        
     if(jsonData){ 
         var result = JSONPath({path: this.jsonPath, json: jsonData});        
         if (result.length == 1 && this.jsonPath.endsWith(".")) {
             result = result[0]
-          }
-        console.log(result);
+          }        
         return result;
+    }
+  }
+
+  isValidJSON(str) {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
     
