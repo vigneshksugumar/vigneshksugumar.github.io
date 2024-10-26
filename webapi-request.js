@@ -1,4 +1,5 @@
 import {LitElement, css, html} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
+import {JSONPath} from 'js/index-browser-umd.cjs';
 
 export class OnPremWebApiRequest extends LitElement {
   
