@@ -71,17 +71,14 @@ export class OnPremWebApiRequest extends LitElement {
     this.webApi = '';    
   }
 
-  render() {
-    console.log(`render - ${this.jsonPath}`)
+  render() {    
     return html`        
         <div>${this.message}</div>
     `
   }
 
-  async connectedCallback() {
-    console.log(`connectedCallback before - ${this.jsonPath}`)
-    super.connectedCallback();
-    console.log(`connectedCallback after - ${this.jsonPath}`)
+  async connectedCallback() {    
+    super.connectedCallback();    
     if(!this.headers){
       this.headers = '{ "Accept" : "application/json" }'
     }
@@ -98,8 +95,7 @@ export class OnPremWebApiRequest extends LitElement {
     }        
   }
 
-  async loadWebApi() {
-    console.log(`loadWebApi - ${this.jsonPath}`)
+  async loadWebApi() {    
     var headers = { 'accept' : 'application/json'}    
     var fetchAttributes = {"headers" : headers};
     if(this.isIntegratedAuth){
