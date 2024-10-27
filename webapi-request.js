@@ -23,13 +23,7 @@ export class OnPremWebApiRequest extends LitElement {
       searchTerms : ['web', 'webapi', 'pnc'],
       fallbackDisableSubmit: false,
       version: '1.2',
-      properties: {
-        outcome: {
-          title: 'Rating',
-          type: 'integer',
-        	description: 'Insert a Variable, to save the Rating',
-          isValueField: true
-        }, 
+      properties: {        
         webApiUrl: {
           type: 'string',
           title: 'WebApi Url',
@@ -60,6 +54,12 @@ export class OnPremWebApiRequest extends LitElement {
             enum: ['string', 'boolean', 'number', 'choice', 'object'],
             description: 'Provide output type to be used in rules or variables',
             defaultValue: 'string'
+        },
+        outcome: {
+          title: 'Rating',
+          type: 'integer',
+        	description: 'Insert a Variable, to save the Rating',
+          isValueField: true
         }
       },
       events: ["ntx-value-change"],
