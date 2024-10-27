@@ -56,7 +56,7 @@ export class OnPremWebApiRequest extends LitElement {
             defaultValue: 'string'
         },
         outcome: {
-          title: 'Rating',
+          title: 'Outcome',
           type: 'string',
         	description: 'Outcome of WebApi',
           isValueField: true        
