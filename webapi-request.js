@@ -17,9 +17,12 @@ export class OnPremWebApiRequest extends LitElement {
 
   static getMetaConfig() {
     return {
-      controlName: 'Star Rating 2',
+      groupName : "In DEV - Do Not Use",
+      controlName: 'WebApi Request',
+      description : 'Make Web Api request including OnPrem',
+      iconUrl : 'data-lookup',
+      searchTerms : ['web', 'webapi', 'pnc'],
       fallbackDisableSubmit: false,
-      groupName: 'Rating',
       version: '1.2',
       properties: {
         outcome: {
