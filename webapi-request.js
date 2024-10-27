@@ -123,6 +123,7 @@ export class OnPremWebApiRequest extends LitElement {
         var jsonBody = await response.json(); 
         jsonBody = this.filterJson(jsonBody);
         console.log(jsonBody);
+        console.log(this.outcome);
         this.outcome = 'Test';
         this.message = html`${this.constructTemplate(jsonBody)}`
       } 
