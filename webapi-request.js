@@ -101,7 +101,7 @@ _handleClick(e) {
     console.log(e);
   }
  
-  render() {
+  renderOld() {
     return html`
      <div class="rate">
     
@@ -117,6 +117,12 @@ _handleClick(e) {
     <label for="star1" title="text">1 star</label>
   </div>
     `;
+  }
+
+  render() {        
+    return html`        
+        <div>${this.message}</div>
+    `
   }
 
   async connectedCallback() {    
