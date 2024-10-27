@@ -144,6 +144,7 @@ export class OnPremWebApiRequest extends LitElement {
      return html`
        <p>Total Items: <b>${items.length}</b></p>
        <ul>${itemTemplates}</ul>
+       <p>${this.outcome}</p>
      `;
   }
 
