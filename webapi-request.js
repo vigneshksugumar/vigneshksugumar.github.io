@@ -57,26 +57,9 @@ export class OnPremWebApiRequest extends LitElement {
         },
         outcome: {
           title: 'Outcome',
-          type: 'object',
+          type: 'string',
         	description: 'Web Api Outcome',
-          isValueField: true,
-          properties: {
-            AsString:{
-              type: 'string',
-              description: 'As String',
-              title: 'AsString',
-            },
-            AsInteger: {
-              type: 'integer',
-              description: 'As Integer',
-              title: 'AsInteger',
-            },
-            AsBoolean: {
-              type: 'boolean',
-              description: 'As Boolean',
-              title: 'AsBoolean',
-            },
-          }      
+          isValueField: true      
         }
       },
       events: ["ntx-value-change"],
@@ -139,7 +122,8 @@ export class OnPremWebApiRequest extends LitElement {
       try{
         var jsonBody = await response.json(); 
         jsonBody = this.filterJson(jsonBody);
-        console.log(jsonBody);            
+        console.log(jsonBody);   
+        this.outcome = "Vignesh Sugumar";
         this.message = html`${this.constructTemplate(jsonBody)}`
       } 
       catch(e)  {
