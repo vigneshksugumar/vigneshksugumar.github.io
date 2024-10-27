@@ -35,7 +35,7 @@ export class OnPremWebApiRequest extends LitElement {
             type: 'string',
             title: 'Request header',
             description: 'Provide headers as json object',
-            defaultValue: "{ Accept:application/json }"
+            defaultValue: '{ "Accept" : "application/json" }'
         },
         isIntegratedAuth: {
           type: 'boolean',
