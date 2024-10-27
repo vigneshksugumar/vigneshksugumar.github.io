@@ -54,7 +54,13 @@ export class OnPremWebApiRequest extends LitElement {
             enum: ['string', 'boolean', 'number', 'choice', 'object'],
             description: 'Provide output type to be used in rules or variables',
             defaultValue: 'string'
-        }
+        },
+        outcome: {
+          title: 'Outcome',
+          type: 'string',
+        	description: 'Outcome of WebApi',
+          isValueField: true
+        } 
       }
     };
   } 
@@ -66,13 +72,16 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   render() {
+    console.log(`render - ${this.jsonPath}`)
     return html`        
         <div>${this.message}</div>
     `
   }
 
   async connectedCallback() {
+    console.log(`connectedCallback before - ${this.jsonPath}`)
     super.connectedCallback();
+    console.log(`connectedCallback after - ${this.jsonPath}`)
     if(!this.headers){
       this.headers = '{ "Accept" : "application/json" }'
     }
@@ -90,6 +99,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   async loadWebApi() {
+    console.log(`loadWebApi - ${this.jsonPath}`)
     var headers = { 'accept' : 'application/json'}    
     var fetchAttributes = {"headers" : headers};
     if(this.isIntegratedAuth){
