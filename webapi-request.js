@@ -81,23 +81,24 @@ export class OnPremWebApiRequest extends LitElement {
     super.connectedCallback();  
     const urlParams = new URLSearchParams(window.location.search);
     if(window.location.pathname.endsWith('UFDesigner.aspx'))  {
-      this.message = html`Please configure control`
-      return;
-    }
-    if(!this.headers){
-      this.headers = '{ "Accept" : "application/json" }'
-    }
-    if(this.webApiUrl){
-      if(this.isValidJSON(this.headers)){
-        await this.loadWebApi();         
-      }
-      else{
-        this.message = html`Invalid Headers`
-      }       
+      this.message = html`Please configure control`      
     }
     else{
-      this.message = html`Invalid WebApi Url`      
-    }        
+      if(!this.headers){
+        this.headers = '{ "Accept" : "application/json" }'
+      }
+      if(this.webApiUrl){
+        if(this.isValidJSON(this.headers)){
+          await this.loadWebApi();         
+        }
+        else{
+          this.message = html`Invalid Headers`
+        }       
+      }
+      else{
+        this.message = html`Invalid WebApi Url`      
+      } 
+    }           
   }
 
   async loadWebApi() {    
