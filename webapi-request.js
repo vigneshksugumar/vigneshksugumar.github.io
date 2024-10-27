@@ -57,7 +57,7 @@ export class OnPremWebApiRequest extends LitElement {
         },
         outcome: {
           title: 'Outcome',
-          type: 'integer',
+          type: 'string',
         	description: 'Web Api Outcome',
           isValueField: true      
         }
