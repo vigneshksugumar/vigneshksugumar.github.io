@@ -79,7 +79,7 @@ export class OnPremWebApiRequest extends LitElement {
 
   async connectedCallback() {    
     super.connectedCallback();  
-    const urlParams = new URLSearchParams(window.location.search);
+    console.log(window.location)
     if(window.location.pathname.endsWith('UFDesigner.aspx'))  {
       this.message = html`Please configure control`      
     }
