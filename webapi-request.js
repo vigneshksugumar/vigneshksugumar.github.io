@@ -85,11 +85,9 @@ export class OnPremWebApiRequest extends LitElement {
          composed: true,         
          detail:this.outcome,
      };
-     console.log(`_webRequestOnLoad - ${this.outcome}`);
-     console.log(args);
+     console.log(`_webRequestOnLoad - ${this.outcome}`);     
      const event = new CustomEvent('ntx-value-change', args);
-     this.dispatchEvent(event);
-     console.log(e);
+     this.dispatchEvent(event);     
    }
 
   async connectedCallback() {    
@@ -151,9 +149,9 @@ export class OnPremWebApiRequest extends LitElement {
 
   plugToForm(jsonBody){
     this.outcome = jsonBody;    
-    //this.outcome = 'Vignesh Sugumar!'; 
-    this._webRequestOnLoad();
+    //this.outcome = 'Vignesh Sugumar!';     
     this.message = html`${this.constructTemplate(jsonBody)}`
+    //this._webRequestOnLoad();
   }
 
   constructTemplate(items){
