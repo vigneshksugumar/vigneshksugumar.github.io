@@ -56,10 +56,10 @@ export class OnPremWebApiRequest extends LitElement {
             defaultValue: 'string'
         },
         outcome: {
-          title: 'Outcome',
-          type: 'string',
-        	description: 'Outcome of WebApi',
-          isValueField: true        
+          title: 'Rating',
+          type: 'integer',
+        	description: 'Insert a Variable, to save the Rating',
+          isValueField: true      
         }
       },
       events: ["ntx-value-change"],
