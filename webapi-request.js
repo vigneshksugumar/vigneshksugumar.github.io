@@ -87,7 +87,7 @@ export class OnPremWebApiRequest extends LitElement {
    render() {
     return html`
       <div class="rate">    
-        <input type="button" id="btnRating" name="rate" @click=${() => this._handleClick(5)} />    
+        <input type="button" id="btnRating" name="rate" value="Rating Submit" @click=${() => this._handleClick(5)} />    
       </div>
     `;
   }
