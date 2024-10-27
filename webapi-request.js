@@ -103,7 +103,7 @@ export class OnPremWebApiRequest extends LitElement {
     catch(e){
       response = {}
       response.status = "500"
-      response.statusText = e;
+      response.statusText = e + ", Try checking authentication";      
     }
     
     if(response != undefined && response.status == 200){   
