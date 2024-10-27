@@ -80,7 +80,13 @@ export class OnPremWebApiRequest extends LitElement {
       },
       events: ["ntx-value-change"],
     };
-  } 
+  }
+  
+  constructor() {    
+    super()    
+    this.message = 'Loading...';
+    this.webApi = '';    
+  }
   
 _handleClick(e) {
    const args = {
@@ -111,6 +117,101 @@ _handleClick(e) {
     <label for="star1" title="text">1 star</label>
   </div>
     `;
+  }
+
+  async connectedCallback() {    
+    super.connectedCallback();      
+    if(window.location.pathname == "/")  {
+      this.message = html`Please configure control`      
+      return;      
+    }
+    
+    if(!this.headers){
+      this.headers = '{ "Accept" : "application/json" }'
+    }
+    if(this.webApiUrl){
+      if(this.isValidJSON(this.headers)){
+        await this.loadWebApi();         
+      }
+      else{
+        this.message = html`Invalid Headers`
+      }       
+    }
+    else{
+      this.message = html`Invalid WebApi Url`      
+    } 
+  }
+
+  async loadWebApi() {    
+    var headers = { 'accept' : 'application/json'}    
+    var fetchAttributes = {"headers" : headers};
+    if(this.isIntegratedAuth){
+      fetchAttributes = {"headers" : headers, "credentials" : "include"}
+    }
+
+    var response;
+    try{
+      response = await fetch(`${this.webApiUrl}`, fetchAttributes);      
+    }
+    catch(e){
+      response = {}
+      response.status = "500"
+      response.statusText = e + ", Try checking authentication";      
+    }
+    
+    if(response != undefined && response.status == 200){   
+      try{
+        var jsonBody = await response.json(); 
+        jsonBody = this.filterJson(jsonBody);
+        console.log(jsonBody);            
+        this.message = html`${this.constructTemplate(jsonBody)}`
+      } 
+      catch(e)  {
+        this.message = html`Invalid JSON response`
+      }
+    }
+    else{
+      this.message = html`WebApi request failed: ${response.status} - ${response.statusText}`
+    }
+    
+  }
+
+  constructTemplate(items){
+    var itemTemplates = [];
+     for (var i of items) {
+       itemTemplates.push(html`<li>${i}</li>`);
+     }
+
+     return html`
+       <p>Total Items: <b>${items.length}</b></p>
+       <ul>${itemTemplates}</ul>
+       <p>${this.webApiUrl}</p>
+       <p>${this.jsonPath}</p>
+       <p>${this.outputType}</p>
+       <p>${this.outcome}</p>
+     `;
+  }
+
+  filterJson(jsonData){            
+    if(!this.jsonPath){
+      this.jsonPath = "$."
+    }        
+    if(jsonData){ 
+        var result = JSONPath({path: this.jsonPath, json: jsonData});        
+        if (result.length == 1 && this.jsonPath.endsWith(".")) {
+            result = result[0]
+          }        
+        return result;
+    }
+  }
+
+  isValidJSON(str) {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
     
 }
