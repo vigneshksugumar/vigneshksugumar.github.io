@@ -72,7 +72,27 @@ export class OnPremWebApiRequest extends LitElement {
     this.webApi = '';    
   }
 
-  render() {        
+  _handleClick(e) {
+    const args = {
+         bubbles: true,
+         cancelable: false,
+         composed: true,         
+         detail:e,
+     };
+     const event = new CustomEvent('ntx-value-change', args);
+     this.dispatchEvent(event);
+     console.log(e);
+   }
+
+   render() {
+    return html`
+      <div class="rate">    
+        <input type="button" id="btnRating" name="rate" @click=${() => this._handleClick(5)} />    
+      </div>
+    `;
+  }
+
+  renderOld() {        
     return html`        
         <div>${this.message}</div>
     `
@@ -133,7 +153,7 @@ export class OnPremWebApiRequest extends LitElement {
       this.message = html`WebApi request failed: ${response.status} - ${response.statusText}`
     }
     
-  }
+  }  
 
   constructTemplate(items){
     var itemTemplates = [];
