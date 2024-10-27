@@ -73,6 +73,9 @@ export class OnPremWebApiRequest extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
+    if(!this.headers){
+      this.headers = '{ "Accept" : "application/json" }'
+    }
     if(this.webApiUrl){
       if(this.isValidJSON(this.headers)){
         await this.loadWebApi();         
@@ -93,8 +96,17 @@ export class OnPremWebApiRequest extends LitElement {
       fetchAttributes = {"headers" : headers, "credentials" : "include"}
     }
 
-    var response = await fetch(`${this.webApiUrl}`, fetchAttributes);
-    if(response.status == 200){   
+    var response;
+    try{
+      response = await fetch(`${this.webApiUrl}`, fetchAttributes);      
+    }
+    catch(e){
+      response = {}
+      response.status = "500"
+      response.statusText = e;
+    }
+    
+    if(response != undefined && response.status == 200){   
       try{
         var jsonBody = await response.json(); 
         jsonBody = this.filterJson(jsonBody);
