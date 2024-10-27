@@ -2,52 +2,19 @@ import {LitElement, css, html} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/
 import {JSONPath} from 'https://cdn.jsdelivr.net/npm/jsonpath-plus@10.1.0/dist/index-browser-esm.min.js';
 
 export class OnPremWebApiRequest extends LitElement {
-  
+    
   static properties = {
     slid: {type: Boolean},
-  };
-  static styles = css`
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .rate {
-            float: left;
-            height: 46px;
-            padding: 0 10px;
-        }
-        .rate:not(:checked) > input {
-            position:absolute;
-            top:-9999px;
-        }
-        .rate:not(:checked) > label {
-            float:right;
-            width:1em;
-            overflow:hidden;
-            white-space:nowrap;
-            cursor:pointer;
-            font-size:30px;
-            color:#ccc;
-        }
-        .rate:not(:checked) > label:before {
-            content: 'â˜… ';
-        }
-        .rate > input:checked ~ label {
-            color: #ffc700;    
-        }
-        .rate:not(:checked) > label:hover,
-        .rate:not(:checked) > label:hover ~ label {
-            color: #deb217;  
-        }
-        .rate > input:checked + label:hover,
-        .rate > input:checked + label:hover ~ label,
-        .rate > input:checked ~ label:hover,
-        .rate > input:checked ~ label:hover ~ label,
-        .rate > label:hover ~ input:checked ~ label {
-            color: #c59b08;
-        }
-        /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */        
-  `;
+    initialText: {type: String},
+    message : {type: String},
+    webApiUrl: {type: String},
+    headers: {type: String},
+    isIntegratedAuth: {type: Boolean},
+    jsonPath: {type: String},
+    outputType: {type: String},
+    outputValue: { type: String }    
+  }  
+  
  static getMetaConfig() {
     return {
       controlName: 'Star Rating 2',
