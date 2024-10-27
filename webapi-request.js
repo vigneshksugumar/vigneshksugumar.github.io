@@ -150,21 +150,25 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   plugToForm(jsonBody){
-    this.outcome = jsonBody.toString();    
+    this.outcome = jsonBody;    
     //this.outcome = 'Vignesh Sugumar!'; 
     this._webRequestOnLoad();
     this.message = html`${this.constructTemplate(jsonBody)}`
   }
 
   constructTemplate(items){
+    
     var itemTemplates = [];
      for (var i of items) {
        itemTemplates.push(html`<li>${i}</li>`);
      }
 
+     itemTemplates = html`${items}`;
+
      return html`
-       <p>Total Items: <b>${items.length}</b></p>
+       <p><b>Results:</b> </p>
        <ul>${itemTemplates}</ul>
+       <p><b>Input:</b> </p>
        <p>${this.webApiUrl}</p>
        <p>${this.jsonPath}</p>
        <p>${this.outputType}</p>
