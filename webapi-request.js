@@ -57,9 +57,26 @@ export class OnPremWebApiRequest extends LitElement {
         },
         outcome: {
           title: 'Outcome',
-          type: 'integer',
+          type: 'object',
         	description: 'Web Api Outcome',
-          isValueField: true      
+          isValueField: true,
+          properties: {
+            AsString:{
+              type: 'string',
+              description: 'As String',
+              title: 'AsString',
+            },
+            AsInteger: {
+              type: 'integer',
+              description: 'As Integer',
+              title: 'AsInteger',
+            },
+            AsBoolean: {
+              type: 'boolean',
+              description: 'As Boolean',
+              title: 'AsBoolean',
+            },
+          }      
         }
       },
       events: ["ntx-value-change"],
