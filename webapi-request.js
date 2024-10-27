@@ -150,8 +150,8 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   plugToForm(jsonBody){
-    //this.outcome = jsonBody;    
-    this.outcome = 'Vignesh Sugumar!'; 
+    this.outcome = jsonBody.toString();    
+    //this.outcome = 'Vignesh Sugumar!'; 
     this._webRequestOnLoad();
     this.message = html`${this.constructTemplate(jsonBody)}`
   }
