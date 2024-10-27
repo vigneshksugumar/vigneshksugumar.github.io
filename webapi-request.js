@@ -78,6 +78,18 @@ export class OnPremWebApiRequest extends LitElement {
     `
   }
 
+  _webRequestOnLoad() {
+    const args = {
+         bubbles: true,
+         cancelable: false,
+         composed: true,         
+         detail:this.outcome,
+     };
+     const event = new CustomEvent('ntx-value-change', args);
+     this.dispatchEvent(event);
+     console.log(e);
+   }
+
   async connectedCallback() {    
     super.connectedCallback();      
     if(window.location.pathname == "/")  {
@@ -92,8 +104,7 @@ export class OnPremWebApiRequest extends LitElement {
       if(this.isValidJSON(this.headers)){
         await this.loadWebApi();         
       }
-      else{
-        console.log(this.headers)
+      else{        
         this.message = html`Invalid Headers`
       }       
     }
@@ -125,6 +136,7 @@ export class OnPremWebApiRequest extends LitElement {
         jsonBody = this.filterJson(jsonBody);
         console.log(jsonBody);   
         this.outcome = "Vignesh Sugumar";
+        this._webRequestOnLoad();
         this.message = html`${this.constructTemplate(jsonBody)}`
       } 
       catch(e)  {
