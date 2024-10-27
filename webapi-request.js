@@ -122,8 +122,7 @@ export class OnPremWebApiRequest extends LitElement {
       try{
         var jsonBody = await response.json(); 
         jsonBody = this.filterJson(jsonBody);
-        console.log(jsonBody);
-        console.log(this.outcome);        
+        console.log(jsonBody);            
         this.message = html`${this.constructTemplate(jsonBody)}`
       } 
       catch(e)  {
@@ -145,6 +144,9 @@ export class OnPremWebApiRequest extends LitElement {
      return html`
        <p>Total Items: <b>${items.length}</b></p>
        <ul>${itemTemplates}</ul>
+       <p>${this.webApiUrl}</p>
+       <p>${this.jsonPath}</p>
+       <p>${this.outputType}</p>
        <p>${this.outcome}</p>
      `;
   }
