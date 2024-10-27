@@ -3,7 +3,7 @@ import {JSONPath} from 'https://cdn.jsdelivr.net/npm/jsonpath-plus@10.1.0/dist/i
 
 export class OnPremWebApiRequest extends LitElement {
     
-  static properties = {    
+  static properties = {
     initialText: {type: String},
     message : {type: String},
     webApiUrl: {type: String},
@@ -13,7 +13,7 @@ export class OnPremWebApiRequest extends LitElement {
     outputType: {type: String},
     outputValue: { type: String }    
   }  
-
+  
   static getMetaConfig() {
     return {
       groupName : "In DEV - Do Not Use",
@@ -23,7 +23,7 @@ export class OnPremWebApiRequest extends LitElement {
       searchTerms : ['web', 'webapi', 'pnc'],
       fallbackDisableSubmit: false,
       version: '1.2',
-      properties: {        
+      properties: {
         webApiUrl: {
           type: 'string',
           title: 'WebApi Url',
@@ -59,48 +59,17 @@ export class OnPremWebApiRequest extends LitElement {
           title: 'Rating',
           type: 'integer',
         	description: 'Insert a Variable, to save the Rating',
-          isValueField: true
+          isValueField: true      
         }
       },
       events: ["ntx-value-change"],
     };
-  }
-  
+  } 
+
   constructor() {    
     super()    
     this.message = 'Loading...';
     this.webApi = '';    
-  }
-  
-_handleClick(e) {
-   const args = {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        // value coming from input change event. 
-        detail:e,
-    };
-    const event = new CustomEvent('ntx-value-change', args);
-    this.dispatchEvent(event);
-    console.log(e);
-  }
- 
-  renderOld() {
-    return html`
-     <div class="rate">
-    
-    <input type="radio" id="star5" name="rate" value="5" @click=${() => this._handleClick(5)} />
-    <label for="star5" title="text">5 stars</label>
-    <input type="radio" id="star4" name="rate" value="4" @click=${() => this._handleClick(4)}/>
-    <label for="star4" title="text">4 stars</label>
-    <input type="radio" id="star3" name="rate" value="3" @click=${() => this._handleClick(3)}/>
-    <label for="star3" title="text">3 stars</label>
-    <input type="radio" id="star2" name="rate" value="2" @click=${() => this._handleClick(2)}/>
-    <label for="star2" title="text">2 stars</label>
-    <input type="radio" id="star1" name="rate" value="1" @click=${() => this._handleClick(1)}/>
-    <label for="star1" title="text">1 star</label>
-  </div>
-    `;
   }
 
   render() {        
