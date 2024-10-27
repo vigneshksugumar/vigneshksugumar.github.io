@@ -136,10 +136,8 @@ export class OnPremWebApiRequest extends LitElement {
       try{
         var jsonBody = await response.json(); 
         jsonBody = this.filterJson(jsonBody);
-        console.log(jsonBody);   
-        this.outcome = "Vignesh Sugumar";
-        this._webRequestOnLoad();
-        this.message = html`${this.constructTemplate(jsonBody)}`
+        console.log(jsonBody);       
+        this.plugToForm(jsonBody);
       } 
       catch(e)  {
         this.message = html`Invalid JSON response`
@@ -149,6 +147,12 @@ export class OnPremWebApiRequest extends LitElement {
       this.message = html`WebApi request failed: ${response.status} - ${response.statusText}`
     }
     
+  }
+
+  plugToForm(jsonBody){
+    this.outcome = jsonBody;    
+    //this._webRequestOnLoad();
+    this.message = html`${this.constructTemplate(jsonBody)}`
   }
 
   constructTemplate(items){
