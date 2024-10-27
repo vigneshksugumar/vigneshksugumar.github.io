@@ -151,7 +151,7 @@ export class OnPremWebApiRequest extends LitElement {
     this.outcome = jsonBody;    
     //this.outcome = 'Vignesh Sugumar!';     
     this.message = html`${this.constructTemplate(jsonBody)}`
-    //this._webRequestOnLoad();
+    this._webRequestOnLoad();
   }
 
   constructTemplate(items){
@@ -165,7 +165,7 @@ export class OnPremWebApiRequest extends LitElement {
 
      return html`
        <p><b>Results:</b> </p>
-       <ul>${itemTemplates}</ul>
+       <p>${itemTemplates}</p>
        <p><b>Input:</b> </p>
        <p>${this.webApiUrl}</p>
        <p>${this.jsonPath}</p>
