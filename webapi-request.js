@@ -32,6 +32,55 @@ export class OnPremWebApiRequest extends LitElement {
       events: ["ntx-value-change"],
     };
   }
+
+  static getMetaConfig() {
+    return {
+      controlName: 'Star Rating 2',
+      fallbackDisableSubmit: false,
+      groupName: 'Rating',
+      version: '1.2',
+      properties: {
+        outcome: {
+          title: 'Rating',
+          type: 'integer',
+        	description: 'Insert a Variable, to save the Rating',
+          isValueField: true
+        }, 
+        webApiUrl: {
+          type: 'string',
+          title: 'WebApi Url',
+          description: 'Provide Web api Url',
+          required : true,
+          defaultValue : 'https://api.sampleapis.com/coffee/hot'
+        },
+        headers: {
+            type: 'string',
+            title: 'Request header',
+            description: 'Provide headers as json object',
+            defaultValue: "{ Accept:application/json }"
+        },
+        isIntegratedAuth: {
+          type: 'boolean',
+          title: 'Is Integrated Authentication',
+          description: 'Check yes for Windows Integrated Auth',
+          defaultValue: false
+        },
+        jsonPath: {
+            type: 'string',
+            title: 'JSON Path',
+            description: 'Provide JSON Path to filter out data'
+        },
+        outputType: {
+            type: 'string',
+            title: 'Output Type',
+            enum: ['string', 'boolean', 'number', 'choice', 'object'],
+            description: 'Provide output type to be used in rules or variables',
+            defaultValue: 'string'
+        }
+      },
+      events: ["ntx-value-change"],
+    };
+  } 
   
 _handleClick(e) {
    const args = {
