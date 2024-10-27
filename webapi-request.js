@@ -58,7 +58,8 @@ export class OnPremWebApiRequest extends LitElement {
         outcome: {
           title: 'Outcome',
           type: 'string',
-        	description: 'Outcome of WebApi'          
+        	description: 'Outcome of WebApi',
+          isValueField: true        
         } 
       }
     };
@@ -77,7 +78,12 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   async connectedCallback() {    
-    super.connectedCallback();    
+    super.connectedCallback();  
+    const urlParams = new URLSearchParams(window.location.search);
+    if(window.location.pathname.endsWith('UFDesigner.aspx'))  {
+      this.message = html`Please configure control`
+      return;
+    }
     if(!this.headers){
       this.headers = '{ "Accept" : "application/json" }'
     }
