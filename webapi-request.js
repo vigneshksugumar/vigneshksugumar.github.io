@@ -93,6 +93,7 @@ export class OnPremWebApiRequest extends LitElement {
         await this.loadWebApi();         
       }
       else{
+        console.log(this.headers)
         this.message = html`Invalid Headers`
       }       
     }
