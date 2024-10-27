@@ -78,8 +78,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   async connectedCallback() {    
-    super.connectedCallback();  
-    console.log(window.location)
+    super.connectedCallback();      
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
       return;      
@@ -122,7 +121,7 @@ export class OnPremWebApiRequest extends LitElement {
       try{
         var jsonBody = await response.json(); 
         jsonBody = this.filterJson(jsonBody);
-        this.outcome = jsonBody;
+        this.outcome = 'Test';
         this.message = html`${this.constructTemplate(jsonBody)}`
       } 
       catch(e)  {
