@@ -50,7 +50,7 @@ export class OnPremWebApiRequest extends LitElement {
   `;
  static getMetaConfig() {
     return {
-      controlName: 'Star Rating',
+      controlName: 'Star Rating 2',
       fallbackDisableSubmit: false,
       groupName: 'Rating',
       version: '1.2',
