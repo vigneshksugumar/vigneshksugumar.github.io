@@ -3,8 +3,7 @@ import {JSONPath} from 'https://cdn.jsdelivr.net/npm/jsonpath-plus@10.1.0/dist/i
 
 export class OnPremWebApiRequest extends LitElement {
     
-  static properties = {
-    slid: {type: Boolean},
+  static properties = {    
     initialText: {type: String},
     message : {type: String},
     webApiUrl: {type: String},
