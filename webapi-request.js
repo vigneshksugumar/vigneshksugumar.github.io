@@ -24,6 +24,12 @@ export class OnPremWebApiRequest extends LitElement {
       fallbackDisableSubmit: false,
       version: '1.2',
       properties: {
+        outcome: {
+          title: 'Outcome',
+          type: 'integer',
+        	description: 'Web Api Outcome',
+          isValueField: true      
+        },
         webApiUrl: {
           type: 'string',
           title: 'WebApi Url',
@@ -54,13 +60,7 @@ export class OnPremWebApiRequest extends LitElement {
             enum: ['string', 'boolean', 'number', 'choice', 'object'],
             description: 'Provide output type to be used in rules or variables',
             defaultValue: 'string'
-        },
-        outcome: {
-          title: 'Outcome',
-          type: 'integer',
-        	description: 'Web Api Outcome',
-          isValueField: true      
-        }
+        }        
       },
       events: ["ntx-value-change"],
     };
