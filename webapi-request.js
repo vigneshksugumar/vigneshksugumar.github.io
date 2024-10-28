@@ -44,7 +44,8 @@ export class OnPremWebApiRequest extends LitElement {
         jsonPath: {
             type: 'string',
             title: 'JSON Path',
-            description: 'Provide JSON Path to filter out data'
+            description: 'Provide JSON Path to filter out data',
+            defaultValue: '$.[2].title.'
         },
         outputType: {
             type: 'string',
@@ -145,9 +146,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   plugToForm(jsonBody){
-    this.outcome = jsonBody;    
-    this.contactDetails.name = "Chumma";     
-    this.contactDetails.phone = "2242123";     
+    this.outcome = jsonBody;        
     this.message = html`${this.constructTemplate(jsonBody)}`
     this._webRequestOnLoad();
   }
