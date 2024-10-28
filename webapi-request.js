@@ -55,11 +55,27 @@ export class OnPremWebApiRequest extends LitElement {
         },
         outcome: {
           title: 'Outcome',
-          type: 'choice',
-          enum: ['Option A', 'Option B', 'Option C'],
-        	description: 'Web Api Outcome',
-          isValueField: true      
-        } 
+          type: 'boolean',
+        	description: 'Web Api Outcome'                
+        },
+        contactDetails: {
+          title: 'Contact information',
+          type: 'object',
+          description: 'Contact details',
+          isValueField: true,
+          properties: {
+            name:{
+              type: 'string',
+              description: 'Full name',
+              title: 'Name',
+            },
+            phone: {
+              type: 'string',
+              description: 'Phone number',
+              title: 'Phone number',
+            },
+          },
+        }, 
       },
       events: ["ntx-value-change"],
     };
