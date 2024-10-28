@@ -55,7 +55,8 @@ export class OnPremWebApiRequest extends LitElement {
         },
         outcome: {
           title: 'Outcome',
-          type: 'boolean',
+          type: 'choice',
+          enum: ['Option A', 'Option B', 'Option C'],
         	description: 'Web Api Outcome',
           isValueField: true      
         } 
