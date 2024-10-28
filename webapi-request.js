@@ -9,8 +9,7 @@ export class OnPremWebApiRequest extends LitElement {
     headers: {type: String},
     isIntegratedAuth: {type: Boolean},
     jsonPath: {type: String},
-    outputType: {type: String},   
-    contactDetails: {type: Object}   
+    outputType: {type: String}    
   }    
   
   static getMetaConfig() {
@@ -56,27 +55,10 @@ export class OnPremWebApiRequest extends LitElement {
         },
         outcome: {
           title: 'Outcome',
-          type: 'boolean',
-        	description: 'Web Api Outcome'                
-        },
-        contactDetails: {
-          title: 'Contact information',
-          type: 'object',
-          description: 'Contact details',
-          isValueField: true,
-          properties: {
-            name:{
-              type: 'string',
-              description: 'Full name',
-              title: 'Name',
-            },
-            phone: {
-              type: 'string',
-              description: 'Phone number',
-              title: 'Phone number',
-            },
-          },
-        }, 
+          type: 'string',
+        	description: 'Web Api Outcome',
+          isValueField: true
+        }
       },
       events: ["ntx-value-change"],
     };
