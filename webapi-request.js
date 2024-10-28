@@ -9,7 +9,7 @@ export class OnPremWebApiRequest extends LitElement {
     headers: {type: String},
     isIntegratedAuth: {type: Boolean},
     jsonPath: {type: String},
-    outputType: {type: String}    
+    displayAs: {type: String}    
   }    
   
   static getMetaConfig() {
@@ -47,12 +47,12 @@ export class OnPremWebApiRequest extends LitElement {
             description: 'Provide JSON Path to filter out data',
             defaultValue: '$.[2].title.'
         },
-        outputType: {
+        displayAs: {
             type: 'string',
-            title: 'Output Type',
-            enum: ['string', 'boolean', 'number', 'choice', 'object'],
-            description: 'Provide output type to be used in rules or variables',
-            defaultValue: 'string'
+            title: 'Display As',
+            enum: ['Label', 'Dropdown'],
+            description: 'Provide display type of the control',
+            defaultValue: 'Label'
         },
         outcome: {
           title: 'Outcome',
@@ -130,14 +130,14 @@ export class OnPremWebApiRequest extends LitElement {
     
     if(response != undefined && response.status == 200){   
       try{
-        var jsonBody = await response.json(); 
-        jsonBody = this.filterJson(jsonBody);        
+        var jsonData = await response.json(); 
+        jsonData = this.filterJson(jsonData);        
       } 
       catch(e)  {
         this.message = html`Invalid JSON response`
       }
-      console.log(jsonBody);       
-      this.plugToForm(jsonBody);
+      console.log(jsonData);       
+      this.plugToForm(jsonData);
     }
     else{
       this.message = html`WebApi request failed: ${response.status} - ${response.statusText}`
@@ -145,30 +145,52 @@ export class OnPremWebApiRequest extends LitElement {
     
   }
 
-  plugToForm(jsonBody){
-    this.outcome = jsonBody;            
-    this.message = html`${this.constructTemplate(jsonBody)}`
+  plugToForm(jsonData){
+    this.outcome = jsonData;   
+    if(this.displayAs == "Label"){
+      this.constructLabelTemplate(jsonData)
+    }     
+    else if(this.displayAs == "Dropdown"){
+      this.constructDropdownTemplate(jsonData)
+    }         
     this._webRequestOnLoad();
   }
 
-  constructTemplate(items){
+  constructLabelTemplate(jsonData){
     
-    //var itemTemplates2 = [];
-    // for (var i of items) {
-    //   itemTemplates.push(html`<li>${i}</li>`);
-    //}
+      var outputTemplate = "";
+      var htmlTemplate = html``;
+      
+      if(typeof jsonData === 'string' || jsonData instanceof String){
+        outputTemplate = jsonData;
+      }    
+      if(this.isInt(jsonData)){
+        outputTemplate = jsonData.toString();
+      }
+      if(typeof jsonData == 'boolean'){
+        outputTemplate = (jsonData == true ? "true" : "false");
+      }
+      htmlTemplate = html`${outputTemplate}`;
+      
+      this.outcome = outputTemplate;      
+      this.message = html`${htmlTemplate}`            
+  }
 
-     var itemTemplates = html`${items}`;
+  constructDropdownTemplate(items){
+    if(Array.isArray(jsonData)){
+      var itemTemplates = [];
+      for (var i of items) {
+        itemTemplates.push(html`<option>${i}</option>`);
+      }
+      this.message = html`<select>${itemTemplates}</select>`
+    }
+    else{
+      this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
+    }
+  }
 
-     return html`
-       <p><b>Results:</b> </p>
-       <p>${itemTemplates}</p>
-       <p><b>Input:</b> </p>
-       <p>${this.webApiUrl}</p>
-       <p>${this.jsonPath}</p>
-       <p>${this.outputType}</p>
-       <p>${this.outcome}</p>       
-     `;
+  isInt(value) {
+    return !isNaN(value) && (function(x) { return (x | 0) === x; })(parseFloat(value))
   }
 
   filterJson(jsonData){            
