@@ -88,6 +88,17 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
+   _dropDownOnChange(val) {
+    const args = {
+         bubbles: true,
+         cancelable: false,
+         composed: true,         
+         detail:val,
+     };     
+     const event = new CustomEvent('ntx-value-change', args);
+     this.dispatchEvent(event);          
+   }
+
   async connectedCallback() {    
     super.connectedCallback();      
     if(window.location.pathname == "/")  {
@@ -182,7 +193,7 @@ export class OnPremWebApiRequest extends LitElement {
       for (var i of items) {
         itemTemplates.push(html`<option>${i}</option>`);
       }
-      this.message = html`<select>${itemTemplates}</select>`
+      this.message = html`<select @change=${() => this._dropDownOnChange(this.value)}>${itemTemplates}</select>`
     }
     else{
       this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
