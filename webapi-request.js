@@ -21,19 +21,13 @@ export class OnPremWebApiRequest extends LitElement {
       searchTerms : ['web', 'webapi', 'pnc'],
       fallbackDisableSubmit: false,
       version: '1.2',
-      properties: {
-        outcome: {
-          title: 'Outcome',
-          type: 'integer',
-        	description: 'Web Api Outcome',
-          isValueField: true      
-        },
+      properties: {        
         webApiUrl: {
           type: 'string',
           title: 'WebApi Url',
           description: 'Provide Web api Url',
           required : true,
-          defaultValue : 'https://api.sampleapis.com/coffee/hot'
+          defaultValue : 'https://jsonplaceholder.typicode.com/todos'
         },
         headers: {
             type: 'string',
@@ -58,7 +52,13 @@ export class OnPremWebApiRequest extends LitElement {
             enum: ['string', 'boolean', 'number', 'choice', 'object'],
             description: 'Provide output type to be used in rules or variables',
             defaultValue: 'string'
-        }        
+        },
+        outcome: {
+          title: 'Outcome',
+          type: 'boolean',
+        	description: 'Web Api Outcome',
+          isValueField: true      
+        } 
       },
       events: ["ntx-value-change"],
     };
