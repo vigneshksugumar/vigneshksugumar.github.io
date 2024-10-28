@@ -146,8 +146,7 @@ export class OnPremWebApiRequest extends LitElement {
       } 
       catch(e)  {
         this.message = html`Invalid JSON response`
-      }
-      console.log(jsonData);       
+      }      
       this.plugToForm(jsonData);
     }
     else{
@@ -168,7 +167,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   constructLabelTemplate(jsonData){
-    
+      console.log(jsonData);
       var outputTemplate = "";
       var htmlTemplate = html``;
       
