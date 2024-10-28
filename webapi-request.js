@@ -57,7 +57,7 @@ export class OnPremWebApiRequest extends LitElement {
         },
         outcome: {
           title: 'Outcome',
-          type: 'string',
+          type: 'integer',
         	description: 'Web Api Outcome',
           isValueField: true      
         }
@@ -84,11 +84,9 @@ export class OnPremWebApiRequest extends LitElement {
          cancelable: false,
          composed: true,         
          detail:this.outcome,
-     };
-     console.log(`_webRequestOnLoad pre - ${this.outcome}`);     
+     };     
      const event = new CustomEvent('ntx-value-change', args);
-     this.dispatchEvent(event);     
-     console.log(`_webRequestOnLoad post - ${this.outcome}`);     
+     this.dispatchEvent(event);          
    }
 
   async connectedCallback() {    
@@ -150,7 +148,7 @@ export class OnPremWebApiRequest extends LitElement {
 
   plugToForm(jsonBody){
     this.outcome = jsonBody;    
-    //this.outcome = 'Vignesh Sugumar!';     
+    this.outcome = 5;     
     this.message = html`${this.constructTemplate(jsonBody)}`
     this._webRequestOnLoad();
   }
