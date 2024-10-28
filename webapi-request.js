@@ -78,6 +78,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   _webRequestOnLoad() {
+    console.log(`_webRequestOnLoad - ${this.outcome}`)
     const args = {
          bubbles: true,
          cancelable: false,
@@ -89,6 +90,7 @@ export class OnPremWebApiRequest extends LitElement {
    }
 
    _dropDownOnChange(val) {
+    console.log(`_dropDownOnChange - ${this.outcome} - ${val}`)
     const args = {
          bubbles: true,
          cancelable: false,
