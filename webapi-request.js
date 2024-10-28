@@ -131,13 +131,13 @@ export class OnPremWebApiRequest extends LitElement {
     if(response != undefined && response.status == 200){   
       try{
         var jsonBody = await response.json(); 
-        jsonBody = this.filterJson(jsonBody);
-        console.log(jsonBody);       
-        this.plugToForm(jsonBody);
+        jsonBody = this.filterJson(jsonBody);        
       } 
       catch(e)  {
         this.message = html`Invalid JSON response`
       }
+      console.log(jsonBody);       
+      this.plugToForm(jsonBody);
     }
     else{
       this.message = html`WebApi request failed: ${response.status} - ${response.statusText}`
@@ -146,20 +146,19 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   plugToForm(jsonBody){
-    this.outcome = jsonBody;        
-    console.log(this.outcome);
+    this.outcome = jsonBody;            
     this.message = html`${this.constructTemplate(jsonBody)}`
-    //this._webRequestOnLoad();
+    this._webRequestOnLoad();
   }
 
   constructTemplate(items){
     
-    var itemTemplates = [];
-     for (var i of items) {
-       itemTemplates.push(html`<li>${i}</li>`);
-     }
+    //var itemTemplates2 = [];
+    // for (var i of items) {
+    //   itemTemplates.push(html`<li>${i}</li>`);
+    //}
 
-     itemTemplates = html`${items}`;
+     var itemTemplates = html`${items}`;
 
      return html`
        <p><b>Results:</b> </p>
@@ -168,8 +167,7 @@ export class OnPremWebApiRequest extends LitElement {
        <p>${this.webApiUrl}</p>
        <p>${this.jsonPath}</p>
        <p>${this.outputType}</p>
-       <p>${this.outcome}</p>
-       <p>${this.contactDetails.name}</p>
+       <p>${this.outcome}</p>       
      `;
   }
 
