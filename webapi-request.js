@@ -89,8 +89,9 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-   _dropDownOnChange(val) {
-    console.log(`_dropDownOnChange - ${this.outcome} - ${val}`)
+   _dropDownOnChange(event) {
+    console.log(event)
+    console.log(`_dropDownOnChange - ${this.outcome}`)
     const args = {
          bubbles: true,
          cancelable: false,
@@ -157,8 +158,7 @@ export class OnPremWebApiRequest extends LitElement {
     
   }
 
-  plugToForm(jsonData){
-    this.outcome = jsonData;   
+  plugToForm(jsonData){    
     if(this.displayAs == "Label"){
       this.constructLabelTemplate(jsonData)
     }     
@@ -194,7 +194,7 @@ export class OnPremWebApiRequest extends LitElement {
       for (var i of items) {
         itemTemplates.push(html`<option>${i}</option>`);
       }
-      this.message = html`<select @change=${() => this._dropDownOnChange(this.value)}>${itemTemplates}</select>`
+      this.message = html`<select @change="${this._dropDownOnChange}">${itemTemplates}</select>`      
     }
     else{
       this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
