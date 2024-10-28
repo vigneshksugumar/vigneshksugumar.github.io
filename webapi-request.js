@@ -89,8 +89,8 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-   _dropDownOnChange(event) {
-    console.log(event)
+   _dropDownOnChange(e) {
+    console.log(e)
     console.log(`_dropDownOnChange - ${this.outcome}`)
     const args = {
          bubbles: true,
@@ -194,7 +194,7 @@ export class OnPremWebApiRequest extends LitElement {
       for (var i of items) {
         itemTemplates.push(html`<option>${i}</option>`);
       }
-      this.message = html`<select>${itemTemplates}</select>`       
+      this.message = html`<select @change="${this._dropDownOnChange}">${itemTemplates}</select>`       
     }
     else{
       this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
