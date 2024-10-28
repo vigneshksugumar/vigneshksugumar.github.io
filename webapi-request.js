@@ -9,7 +9,8 @@ export class OnPremWebApiRequest extends LitElement {
     headers: {type: String},
     isIntegratedAuth: {type: Boolean},
     jsonPath: {type: String},
-    outputType: {type: String}    
+    outputType: {type: String},   
+    contactDetails: {type: Object}   
   }    
   
   static getMetaConfig() {
