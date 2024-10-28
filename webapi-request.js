@@ -187,7 +187,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   constructDropdownTemplate(items){
-    if(Array.isArray(jsonData)){
+    if(Array.isArray(items)){
       var itemTemplates = [];
       for (var i of items) {
         itemTemplates.push(html`<option>${i}</option>`);
