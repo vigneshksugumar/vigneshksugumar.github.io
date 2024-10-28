@@ -4,14 +4,13 @@ import {JSONPath} from 'https://cdn.jsdelivr.net/npm/jsonpath-plus@10.1.0/dist/i
 export class OnPremWebApiRequest extends LitElement {
     
   static properties = {
-    initialText: {type: String},
+    slid: {type: Boolean},    
     message : {type: String},
     webApiUrl: {type: String},
     headers: {type: String},
     isIntegratedAuth: {type: Boolean},
     jsonPath: {type: String},
-    outputType: {type: String},
-    outputValue: { type: String }    
+    outputType: {type: String}    
   }    
   
   static getMetaConfig() {
