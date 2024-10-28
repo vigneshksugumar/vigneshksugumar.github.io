@@ -82,7 +82,7 @@ export class OnPremWebApiRequest extends LitElement {
          bubbles: true,
          cancelable: false,
          composed: true,         
-         detail:e,
+         detail:this.outcome,
      };     
      const event = new CustomEvent('ntx-value-change', args);
      this.dispatchEvent(event);          
