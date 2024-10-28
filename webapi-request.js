@@ -87,7 +87,7 @@ export class OnPremWebApiRequest extends LitElement {
      };
      console.log(`_webRequestOnLoad pre - ${this.outcome}`);     
      const event = new CustomEvent('ntx-value-change', args);
-     //this.dispatchEvent(event);     
+     this.dispatchEvent(event);     
      console.log(`_webRequestOnLoad post - ${this.outcome}`);     
    }
 
