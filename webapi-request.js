@@ -67,8 +67,7 @@ export class OnPremWebApiRequest extends LitElement {
         	description: 'Web Api Outcome',
           isValueField: true
         }
-      },
-      events: ["ntx-value-change"],
+      }
     };
   } 
 
