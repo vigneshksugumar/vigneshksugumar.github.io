@@ -25,9 +25,7 @@ export class OnPremWebApiRequest extends LitElement {
       standardProperties: {
         fieldLabel:true,
         description:true,
-        visibility: true,
-        toolTip: true,
-        defaultValue:true
+        visibility: true        
       },
       properties: {        
         webApiUrl: {
