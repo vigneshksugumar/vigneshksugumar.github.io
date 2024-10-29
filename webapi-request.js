@@ -113,9 +113,11 @@ export class OnPremWebApiRequest extends LitElement {
    }
 
   async connectedCallback() {        
-    console.log('connectedCallback')  
-    console.log(this.pluginLoaded)
+    console.log('connectedCallback')      
     this.pluginLoaded = true;
+    if(this.pluginLoaded){
+      return;
+    }    
     super.connectedCallback();      
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
