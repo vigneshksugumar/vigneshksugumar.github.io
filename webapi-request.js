@@ -22,12 +22,7 @@ export class OnPremWebApiRequest extends LitElement {
       searchTerms : ['web', 'webapi', 'pnc'],
       fallbackDisableSubmit: false,
       version: '1.2',
-      pluginAuthor : 'Vignesh Sugumar',
-      standardProperties: {
-        fieldLabel:true,
-        description:true,
-        visibility: true        
-      },
+      pluginAuthor : 'Vignesh Sugumar',      
       properties: {        
         webApiUrl: {
           type: 'string',
@@ -64,7 +59,8 @@ export class OnPremWebApiRequest extends LitElement {
         outcome: {
           title: 'Outcome',
           type: 'string',
-        	description: 'Web Api Outcome'
+        	description: 'Web Api Outcome',
+          isValueField: true
         }
       },
       events: ["ntx-value-change"],
