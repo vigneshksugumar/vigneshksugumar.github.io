@@ -114,10 +114,10 @@ export class OnPremWebApiRequest extends LitElement {
 
   async connectedCallback() {        
     console.log('connectedCallback')          
+    console.log(this.pluginLoaded)          
     if(this.pluginLoaded){
       return;
     }    
-    console.log(this.pluginLoaded)          
     this.pluginLoaded = true;
     super.connectedCallback();      
     if(window.location.pathname == "/")  {
