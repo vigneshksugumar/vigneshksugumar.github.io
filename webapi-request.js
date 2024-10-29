@@ -176,7 +176,7 @@ export class OnPremWebApiRequest extends LitElement {
     else if(this.displayAs == "Dropdown"){
       this.constructDropdownTemplate(jsonData)
     }         
-    this._webRequestOnLoad();
+    //this._webRequestOnLoad();
   }
 
   constructLabelTemplate(jsonData){
