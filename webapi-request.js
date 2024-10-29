@@ -161,7 +161,13 @@ export class OnPremWebApiRequest extends LitElement {
       this.plugToForm(jsonData);
     }
     else{
-      this.message = html`WebApi request failed: ${response.status} - ${response.statusText}`
+      if(this.outcome){
+        this.message = html`${this.outcome}`
+      }
+      else{
+        this.message = html`WebApi request failed: ${response.status} - ${response.statusText}`
+      }
+      
     }
     
   }
