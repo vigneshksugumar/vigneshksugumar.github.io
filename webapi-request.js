@@ -62,9 +62,9 @@ export class OnPremWebApiRequest extends LitElement {
             defaultValue: 'Label'
         },
         outcome: {
-          title: 'Outcome',
+          title: 'Fallback Text',
           type: 'string',
-        	description: 'Web Api Outcome',
+        	description: 'Fallback Text',
           isValueField: true
         }
       },
@@ -124,7 +124,7 @@ export class OnPremWebApiRequest extends LitElement {
       if(this.isValidJSON(this.headers)){
         await this.loadWebApi();         
       }
-      else{        
+      else{          
         this.message = html`Invalid Headers`
       }       
     }
