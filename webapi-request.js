@@ -64,7 +64,7 @@ export class OnPremWebApiRequest extends LitElement {
         outcome: {
           title: 'Fallback Text',
           type: 'string',
-        	description: 'Fallback Text',
+        	description: 'Fallback Text if api fails',
           isValueField: true
         }
       },
@@ -161,11 +161,12 @@ export class OnPremWebApiRequest extends LitElement {
       this.plugToForm(jsonData);
     }
     else{
+      console.log(this.outcome)
       if(this.outcome){
         this.message = html`${this.outcome}`
       }
       else{
-        this.message = html`WebApi request failed: ${response.status} - ${response.statusText == undefined ? 'Error!' : response.statusText}`
+        this.message = html`WebApi request failed: ${response.status} - ${response.statusText == '' ? 'Error!' : response.statusText}`
       }
       
     }
