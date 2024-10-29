@@ -107,7 +107,8 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-  async connectedCallback() {                
+  async connectedCallback() {  
+    console.log(this.outcome)              
     if(this.pluginLoaded){
       return;
     }    
