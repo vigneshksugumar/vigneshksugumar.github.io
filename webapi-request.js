@@ -3,7 +3,8 @@ import {JSONPath} from 'https://cdn.jsdelivr.net/npm/jsonpath-plus@10.1.0/dist/i
 
 export class OnPremWebApiRequest extends LitElement {
     
-  static properties = {    
+  static properties = {  
+    pluginLoaded : {type: Boolean},  
     message : {type: String},
     webApiUrl: {type: String},
     headers: {type: String},
@@ -111,8 +112,10 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-  async connectedCallback() {    
+  async connectedCallback() {        
     console.log('connectedCallback')  
+    console.log(this.pluginLoaded)
+    this.pluginLoaded = true;
     super.connectedCallback();      
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
