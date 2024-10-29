@@ -165,7 +165,7 @@ export class OnPremWebApiRequest extends LitElement {
         this.message = html`${this.outcome}`
       }
       else{
-        this.message = html`WebApi request failed: ${response.status} - ${response.statusText == undefined ? 'Error!' : statusText}`
+        this.message = html`WebApi request failed: ${response.status} - ${response.statusText == undefined ? 'Error!' : response.statusText}`
       }
       
     }
