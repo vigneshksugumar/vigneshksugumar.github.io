@@ -174,7 +174,7 @@ export class OnPremWebApiRequest extends LitElement {
       this.plugToForm(jsonData);
     }
     else{
-      _fallBackOnLoad()      
+      this._fallBackOnLoad()      
       this.message = html`WebApi request failed: ${response.status} - ${response.statusText == '' ? 'Error!' : response.statusText}`
     }
     
