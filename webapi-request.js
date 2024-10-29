@@ -23,8 +23,11 @@ export class OnPremWebApiRequest extends LitElement {
       version: '1.2',
       pluginAuthor : 'Vignesh Sugumar',
       standardProperties: {
+        fieldLabel:true,
+        description:true,
         visibility: true,
-        toolTip: true
+        toolTip: true,
+        defaultValue:true
       },
       properties: {        
         webApiUrl: {
