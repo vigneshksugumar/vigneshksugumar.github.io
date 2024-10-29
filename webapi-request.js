@@ -21,6 +21,11 @@ export class OnPremWebApiRequest extends LitElement {
       searchTerms : ['web', 'webapi', 'pnc'],
       fallbackDisableSubmit: false,
       version: '1.2',
+      pluginAuthor : 'Vignesh Sugumar',
+      standardProperties: {
+        visibility: true,
+        toolTip: true
+      },
       properties: {        
         webApiUrl: {
           type: 'string',
