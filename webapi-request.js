@@ -13,8 +13,7 @@ export class OnPremWebApiRequest extends LitElement {
     displayAs: {type: String}    
   }    
   
-  static getMetaConfig() {
-    console.log('getMetaConfig')
+  static getMetaConfig() {    
     return {
       groupName : "In DEV - Do Not Use",
       controlName: 'WebApi Request',
@@ -73,10 +72,8 @@ export class OnPremWebApiRequest extends LitElement {
     };
   } 
 
-  constructor() {  
-    console.log('constructor before')  
-    super()    
-    console.log('constructor after')  
+  constructor() {      
+    super()        
     this.message = 'Loading...';
     this.webApi = '';    
   }
@@ -87,8 +84,7 @@ export class OnPremWebApiRequest extends LitElement {
     `
   }
 
-  _webRequestOnLoad() {
-    console.log(`_webRequestOnLoad - ${this.outcome}`)
+  _webRequestOnLoad() {    
     const args = {
          bubbles: true,
          cancelable: false,
@@ -99,9 +95,7 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-   _dropDownOnChange(e) {    
-    console.log(`_dropDownOnChange - ${this.outcome}`)
-    console.log(e)
+   _dropDownOnChange(e) {            
     const args = {
          bubbles: true,
          cancelable: false,
@@ -112,9 +106,7 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-  async connectedCallback() {        
-    console.log('connectedCallback')          
-    console.log(this.pluginLoaded)          
+  async connectedCallback() {                
     if(this.pluginLoaded){
       return;
     }    
@@ -141,8 +133,7 @@ export class OnPremWebApiRequest extends LitElement {
     } 
   }
 
-  async loadWebApi() {    
-    console.log('loadWebApi')  
+  async loadWebApi() {        
     var headers = { 'accept' : 'application/json'}    
     var fetchAttributes = {"headers" : headers};
     if(this.isIntegratedAuth){
@@ -175,8 +166,7 @@ export class OnPremWebApiRequest extends LitElement {
     
   }
 
-  plugToForm(jsonData){  
-    console.log('plugToForm')    
+  plugToForm(jsonData){      
     if(this.displayAs == "Label"){
       this.constructLabelTemplate(jsonData)
     }     
@@ -186,9 +176,7 @@ export class OnPremWebApiRequest extends LitElement {
     this._webRequestOnLoad();
   }
 
-  constructLabelTemplate(jsonData){
-      console.log(`constructLabelTemplate`)
-      console.log(jsonData);
+  constructLabelTemplate(jsonData){            
       var outputTemplate = "";
       var htmlTemplate = html``;
       
