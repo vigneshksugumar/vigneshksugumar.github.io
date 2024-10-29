@@ -73,8 +73,9 @@ export class OnPremWebApiRequest extends LitElement {
   } 
 
   constructor() {  
-    console.log('constructor')  
+    console.log('constructor before')  
     super()    
+    console.log('constructor after')  
     this.message = 'Loading...';
     this.webApi = '';    
   }
