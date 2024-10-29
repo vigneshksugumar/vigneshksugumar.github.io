@@ -13,6 +13,7 @@ export class OnPremWebApiRequest extends LitElement {
   }    
   
   static getMetaConfig() {
+    console.log('getMetaConfig')
     return {
       groupName : "In DEV - Do Not Use",
       controlName: 'WebApi Request',
@@ -71,7 +72,8 @@ export class OnPremWebApiRequest extends LitElement {
     };
   } 
 
-  constructor() {    
+  constructor() {  
+    console.log('constructor')  
     super()    
     this.message = 'Loading...';
     this.webApi = '';    
@@ -95,9 +97,9 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-   _dropDownOnChange(e) {
-    console.log(e)
+   _dropDownOnChange(e) {    
     console.log(`_dropDownOnChange - ${this.outcome}`)
+    console.log(e)
     const args = {
          bubbles: true,
          cancelable: false,
@@ -109,6 +111,7 @@ export class OnPremWebApiRequest extends LitElement {
    }
 
   async connectedCallback() {    
+    console.log('connectedCallback')  
     super.connectedCallback();      
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
@@ -132,6 +135,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   async loadWebApi() {    
+    console.log('loadWebApi')  
     var headers = { 'accept' : 'application/json'}    
     var fetchAttributes = {"headers" : headers};
     if(this.isIntegratedAuth){
@@ -164,7 +168,8 @@ export class OnPremWebApiRequest extends LitElement {
     
   }
 
-  plugToForm(jsonData){    
+  plugToForm(jsonData){  
+    console.log('plugToForm')    
     if(this.displayAs == "Label"){
       this.constructLabelTemplate(jsonData)
     }     
@@ -175,6 +180,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   constructLabelTemplate(jsonData){
+      console.log(`constructLabelTemplate`)
       console.log(jsonData);
       var outputTemplate = "";
       var htmlTemplate = html``;
