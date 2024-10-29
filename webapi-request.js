@@ -64,10 +64,10 @@ export class OnPremWebApiRequest extends LitElement {
         outcome: {
           title: 'Outcome',
           type: 'string',
-        	description: 'Web Api Outcome',
-          isValueField: true
+        	description: 'Web Api Outcome'
         }
-      }
+      },
+      events: ["ntx-value-change"],
     };
   } 
 
