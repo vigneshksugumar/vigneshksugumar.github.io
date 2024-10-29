@@ -63,7 +63,7 @@ export class OnPremWebApiRequest extends LitElement {
             defaultValue: 'Label'
         },
         outcome: {
-          title: 'Fallback Text',
+          title: 'outcome',
           type: 'string',
         	description: 'Fallback Text if api fails',
           isValueField: true
