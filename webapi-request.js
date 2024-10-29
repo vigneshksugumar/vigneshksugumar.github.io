@@ -63,9 +63,9 @@ export class OnPremWebApiRequest extends LitElement {
             defaultValue: 'Label'
         },
         outcome: {
-          title: 'outcome',
           type: 'string',
-        	description: 'Fallback Text if api fails',
+          title: 'Outcome',          
+        	description: 'This value will be overridden',
           isValueField: true
         }
       },
@@ -162,15 +162,8 @@ export class OnPremWebApiRequest extends LitElement {
       }      
       this.plugToForm(jsonData);
     }
-    else{
-      console.log(this.outcome)
-      if(this.outcome){
-        this.message = html`${this.outcome}`
-      }
-      else{
-        this.message = html`WebApi request failed: ${response.status} - ${response.statusText == '' ? 'Error!' : response.statusText}`
-      }
-      
+    else{      
+      this.message = html`WebApi request failed: ${response.status} - ${response.statusText == '' ? 'Error!' : response.statusText}`
     }
     
   }
