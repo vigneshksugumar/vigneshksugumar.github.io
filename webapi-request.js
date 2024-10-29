@@ -22,7 +22,12 @@ export class OnPremWebApiRequest extends LitElement {
       searchTerms : ['web', 'webapi', 'pnc'],
       fallbackDisableSubmit: false,
       version: '1.2',
-      pluginAuthor : 'Vignesh Sugumar',      
+      pluginAuthor : 'Vignesh Sugumar',
+      standardProperties: {
+        fieldLabel:true,
+        description:true,
+        visibility: true        
+      },
       properties: {        
         webApiUrl: {
           type: 'string',
@@ -172,7 +177,7 @@ export class OnPremWebApiRequest extends LitElement {
     else if(this.displayAs == "Dropdown"){
       this.constructDropdownTemplate(jsonData)
     }         
-    //this._webRequestOnLoad();
+    this._webRequestOnLoad();
   }
 
   constructLabelTemplate(jsonData){
