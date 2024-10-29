@@ -85,6 +85,17 @@ export class OnPremWebApiRequest extends LitElement {
     `
   }
 
+  _fallBackOnLoad() {    
+    const args = {
+         bubbles: true,
+         cancelable: false,
+         composed: true,         
+         detail:this.outcome,
+     };     
+     const event = new CustomEvent('ntx-value-change', args);
+     this.dispatchEvent(event);          
+   }
+
   _webRequestOnLoad() {    
     const args = {
          bubbles: true,
@@ -162,7 +173,8 @@ export class OnPremWebApiRequest extends LitElement {
       }      
       this.plugToForm(jsonData);
     }
-    else{      
+    else{
+      _fallBackOnLoad()      
       this.message = html`WebApi request failed: ${response.status} - ${response.statusText == '' ? 'Error!' : response.statusText}`
     }
     
