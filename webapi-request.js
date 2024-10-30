@@ -83,14 +83,15 @@ export class OnPremWebApiRequest extends LitElement {
       font-family: var(--ntx-form-theme-font-family);
       background-color: var(--ntx-form-theme-color-input-background);
       line-height: var(--ntx-form-control-line-height, 1.25);
-      min-height: 29px;
+      min-height: 33px;
       height: auto;
-      padding: 0;
+      padding: 1px 4px;
       border: 1px solid #898f94;
       min-width: 70px;
       position: relative;
       display: block;
       box-sizing: border-box;
+      width:100%;
     }
   `;
 
