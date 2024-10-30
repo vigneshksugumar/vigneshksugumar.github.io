@@ -74,7 +74,7 @@ export class OnPremWebApiRequest extends LitElement {
   } 
 
   static styles = css`
-    .form-control {            
+    select.webapi-control {            
       border-radius: var(--ntx-form-theme-border-radius);
       font-size: var(--ntx-form-theme-text-input-size);
       caret-color: var(--ntx-form-theme-color-input-text);
@@ -97,6 +97,10 @@ export class OnPremWebApiRequest extends LitElement {
       background-repeat: no-repeat;
       background-position: right 0.7rem top 50%;
       background-size: 0.65rem auto;
+    }
+    div.webapi-control{
+      padding: 4px 0px 3px;
+      color: #000;
     }
   `;
 
@@ -217,7 +221,7 @@ export class OnPremWebApiRequest extends LitElement {
       if(typeof jsonData == 'boolean'){
         outputTemplate = (jsonData == true ? "true" : "false");
       }
-      htmlTemplate = html`${outputTemplate}`;
+      htmlTemplate = html`<div class="form-control webapi-control">${outputTemplate}</div>`;
       
       this.outcome = outputTemplate;      
       this.message = html`${htmlTemplate}`            
@@ -229,7 +233,7 @@ export class OnPremWebApiRequest extends LitElement {
       for (var i of items) {
         itemTemplates.push(html`<option>${i}</option>`);
       }
-      this.message = html`<select class="form-control"
+      this.message = html`<select class="form-control webapi-control"
                     @change=${e => this._dropDownOnChange(e.target.value)}>${itemTemplates}</select>
                       `       
     }
