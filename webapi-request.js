@@ -12,8 +12,8 @@ export class OnPremWebApiRequest extends LitElement {
     jsonPath: {type: String},
     displayAs: {type: String},
     outcome: {type: String}    
-  }    
-  
+  }   
+      
   static getMetaConfig() {    
     return {
       groupName : "In DEV - Do Not Use",
@@ -72,6 +72,27 @@ export class OnPremWebApiRequest extends LitElement {
       events: ["ntx-value-change"],
     };
   } 
+
+  static styles = css`
+    .form-control {            
+      border-radius: var(--ntx-form-theme-border-radius);
+      font-size: var(--ntx-form-theme-text-input-size);
+      caret-color: var(--ntx-form-theme-color-input-text);
+      color: var(--ntx-form-theme-color-input-text);
+      border-color: var(--ntx-form-theme-color-border);
+      font-family: var(--ntx-form-theme-font-family);
+      background-color: var(--ntx-form-theme-color-input-background);
+      line-height: var(--ntx-form-control-line-height, 1.25);
+      min-height: 29px;
+      height: auto;
+      padding: 0;
+      border: 1px solid #898f94;
+      min-width: 70px;
+      position: relative;
+      display: block;
+      box-sizing: border-box;
+    }
+  `;
 
   constructor() {      
     super()        
