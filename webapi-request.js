@@ -104,8 +104,7 @@ export class OnPremWebApiRequest extends LitElement {
     }
   `;
 
-  constructor() {    
-    console.log(window.location)  
+  constructor() {        
     super()        
     this.message = 'Loading...';
     this.webApi = '';    
@@ -125,7 +124,9 @@ export class OnPremWebApiRequest extends LitElement {
          detail:this.outcome,
      };     
      const event = new CustomEvent('ntx-value-change', args);
-     this.dispatchEvent(event);          
+     this.dispatchEvent(event);   
+     
+     console.log(this.queryParam('mode'))
    }
 
    _dropDownOnChange(e) {            
@@ -267,6 +268,11 @@ export class OnPremWebApiRequest extends LitElement {
     } catch (e) {
       return false;
     }
+  }
+
+  queryParam(param){    
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param); 
   }
     
 }
