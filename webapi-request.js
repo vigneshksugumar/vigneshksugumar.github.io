@@ -124,9 +124,7 @@ export class OnPremWebApiRequest extends LitElement {
          detail:this.outcome,
      };     
      const event = new CustomEvent('ntx-value-change', args);
-     this.dispatchEvent(event);   
-     
-     console.log(this.queryParam('mode'))
+     this.dispatchEvent(event);             
    }
 
    _dropDownOnChange(e) {            
@@ -146,6 +144,8 @@ export class OnPremWebApiRequest extends LitElement {
     }    
     this.pluginLoaded = true;
     super.connectedCallback();      
+    console.log(this.queryParam('mode'))
+    console.log(document.getElementsByTagName("ntx-form-builder-config-panel")[0].querySelector("#outcome-group-control").closest("div.nx-row").style.display)
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
       return;      
