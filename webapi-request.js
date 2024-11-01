@@ -154,7 +154,8 @@ export class OnPremWebApiRequest extends LitElement {
     }
     if(this.webApiUrl){
       if(this.isValidJSON(this.headers)){
-        await this.loadWebApi();         
+        await this.loadWebApi();   
+        this.querySPApi();      
       }
       else{          
         this.message = html`Invalid Headers`
@@ -271,6 +272,25 @@ export class OnPremWebApiRequest extends LitElement {
   queryParam(param){    
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param); 
+  }
+
+  querySPApi(){
+    var hostWebUrl = 'https://vigneshks.sharepoint.com/sites/Nintex';
+    var appWebUrl = 'https://vigneshks-f4d061f0fbd4d4.sharepoint.com/sites/Nintex/FormsApp';
+
+    var spExecutor = new SP.RequestExecutor(appWebUrl);
+    spExecutor.executeAsync({
+        url: appWebUrl + "/_api/SP.AppContextSite(@target)/web/title/?@target='" + hostWebUrl + "'",
+        method: "GET",
+        headers: { "Accept": "application/json; odata=verbose" },
+        success: function (data) {
+            var siteName = JSON.parse(data.body).d.Title;
+            console.log(siteName);
+        },
+        error: function (e) {
+            alert(e);
+        }
+    });
   }
     
 }
