@@ -180,7 +180,7 @@ export class OnPremWebApiRequest extends LitElement {
       
   }
 
-  executeAsyncWithPromise(appWebUrl, requestInfo) {
+  async executeAsyncWithPromise(appWebUrl, requestInfo) {
       return new Promise((resolve, reject) => {
           const executor = new SP.RequestExecutor(appWebUrl);
           executor.executeAsync({...requestInfo,
