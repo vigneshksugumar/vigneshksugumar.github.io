@@ -198,7 +198,7 @@ export class OnPremWebApiRequest extends LitElement {
       };
       console.log(appWebUrl, spoApiUrl)
       var response;
-      try{
+      try{ 
         response = await this.executeAsyncWithPromise(appWebUrl, requestInfo);
       }
       catch(e){
