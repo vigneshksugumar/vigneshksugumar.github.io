@@ -138,7 +138,7 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-  async connectedCallback() {      
+  connectedCallback() {      
     if(this.pluginLoaded){
       return;
     }    
@@ -154,7 +154,7 @@ export class OnPremWebApiRequest extends LitElement {
     }
     if(this.webApiUrl){
       if(this.isValidJSON(this.headers)){
-        await this.loadWebApi();           
+        this.callApi();        
       }
       else{          
         this.message = html`Invalid Headers`
@@ -163,6 +163,63 @@ export class OnPremWebApiRequest extends LitElement {
     else{
       this.message = html`Invalid WebApi Url`      
     } 
+  }
+
+  async callApi(){
+      var inputWebApi = this.webApiUrl;
+      inputWebApi = "/_api/web/"
+      if(inputWebApi.indexOf("/_api/web/") == -1 && inputWebApi.indexOf("/_api/site/") == -1 ){
+        await this.loadWebApi();
+      }
+      else{
+        var hostWebUrl = this.queryParam("SPHostUrl");
+        var appWebUrl = this.queryParam("SPAppWebUrl");
+        var spoApiUrl = appWebUrl + "/_api/SP.AppContextSite(@target)/web/title/?@target='" + hostWebUrl + "'";        
+        await this.loadSPOApi(appWebUrl, spoApiUrl);
+      }
+      
+  }
+
+  executeAsyncWithPromise(appWebUrl, requestInfo) {
+      return new Promise((resolve, reject) => {
+          const executor = new SP.RequestExecutor(appWebUrl);
+          executor.executeAsync({...requestInfo,
+              success: (response) => resolve(response),
+              error: (response) => reject(response),
+          });
+      });
+  }
+
+  async loadSPOApi(appWebUrl, spoApiUrl){              
+      const requestInfo = {
+          url: spoApiUrl,
+          method: "GET",
+          headers: { "Accept": "application/json; odata=verbose" }
+      };
+      console.log(appWebUrl, spoApiUrl)
+      var response;
+      try{
+        response = await this.executeAsyncWithPromise(appWebUrl, requestInfo);
+      }
+      catch(e){
+        response = {}
+        response.status = "500"
+        response.statusText = e + ", Try checking end point";      
+      }
+      
+      if(response.body != undefined && response.statusCode == 200){   
+        try{
+          var jsonData = JSON.parse(response.body); 
+          jsonData = this.filterJson(jsonData);        
+        } 
+        catch(e)  {
+          this.message = html`Invalid JSON response`
+        }      
+        this.plugToForm(jsonData);
+      }
+      else{      
+        this.message = html`WebApi request failed: ${response.status} - ${response.statusText == '' ? 'Error!' : response.statusText}`
+      }
   }
 
   async loadWebApi() {        
@@ -198,6 +255,18 @@ export class OnPremWebApiRequest extends LitElement {
     
   }
 
+  async loadSPOApi(appWebUrl, spoApiUrl){        
+      var spExecutor = new SP.RequestExecutor(appWebUrl);
+      const requestInfo = {
+          url: spoApiUrl,
+          method: "GET",
+          headers: { "Accept": "application/json; odata=verbose" }
+      };
+      var response = await executeAsyncWithPromise(appWebUrl, requestInfo);
+      const data = JSON.parse(response.body);    
+      return data;    
+  }
+
   plugToForm(jsonData){      
     if(this.displayAs == "Label"){
       this.constructLabelTemplate(jsonData)
@@ -221,7 +290,7 @@ export class OnPremWebApiRequest extends LitElement {
       if(typeof jsonData == 'boolean'){
         outputTemplate = (jsonData == true ? "true" : "false");
       }
-      htmlTemplate = html`<div class="form-control webapi-control">Oh! ${outputTemplate}</div>`;
+      htmlTemplate = html`<div class="form-control webapi-control">Oh3! ${outputTemplate}</div>`;
       
       this.outcome = outputTemplate;      
       this.message = html`${htmlTemplate}`            
@@ -269,7 +338,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   queryParam(param){    
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(decodeURIComponent(window.location.search.replaceAll("amp;", "")));
     return urlParams.get(param); 
   }  
     
