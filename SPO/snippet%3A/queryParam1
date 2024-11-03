@@ -1,0 +1,4 @@
+function queryParam(param){    
+    const urlParams = new URLSearchParams(decodeURIComponent(window.location.search.replaceAll("amp;", "")));
+    return urlParams.get(param); 
+  }  

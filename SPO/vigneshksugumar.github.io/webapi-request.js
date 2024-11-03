@@ -138,7 +138,7 @@ export class OnPremWebApiRequest extends LitElement {
      this.dispatchEvent(event);          
    }
 
-  async connectedCallback() {      
+  connectedCallback() {      
     if(this.pluginLoaded){
       return;
     }    
@@ -154,7 +154,7 @@ export class OnPremWebApiRequest extends LitElement {
     }
     if(this.webApiUrl){
       if(this.isValidJSON(this.headers)){
-        await this.loadWebApi();           
+        this.callApi();        
       }
       else{          
         this.message = html`Invalid Headers`
@@ -163,6 +163,32 @@ export class OnPremWebApiRequest extends LitElement {
     else{
       this.message = html`Invalid WebApi Url`      
     } 
+  }
+
+  async callApi(){
+    await this.loadWebApi();
+  }
+
+  executeAsyncWithPromise(appWebUrl, requestInfo) {
+      return new Promise((resolve, reject) => {
+          const executor = new SP.RequestExecutor(appWebUrl);
+          executor.executeAsync({...requestInfo,
+              success: (response) => resolve(response),
+              error: (response) => reject(response),
+          });
+      });
+  }
+
+  async loadSPOApi(appWebUrl, spoApiUrl){        
+      var spExecutor = new SP.RequestExecutor(appWebUrl);
+      const requestInfo = {
+          url: spoApiUrl,
+          method: "GET",
+          headers: { "Accept": "application/json; odata=verbose" }
+      };
+      var response = await executeAsyncWithPromise(appWebUrl, requestInfo);
+      const data = JSON.parse(response.body);    
+      return data;    
   }
 
   async loadWebApi() {        
@@ -196,6 +222,18 @@ export class OnPremWebApiRequest extends LitElement {
       this.message = html`WebApi request failed: ${response.status} - ${response.statusText == '' ? 'Error!' : response.statusText}`
     }
     
+  }
+
+  async loadSPOApi(appWebUrl, spoApiUrl){        
+      var spExecutor = new SP.RequestExecutor(appWebUrl);
+      const requestInfo = {
+          url: spoApiUrl,
+          method: "GET",
+          headers: { "Accept": "application/json; odata=verbose" }
+      };
+      var response = await executeAsyncWithPromise(appWebUrl, requestInfo);
+      const data = JSON.parse(response.body);    
+      return data;    
   }
 
   plugToForm(jsonData){      
@@ -269,7 +307,7 @@ export class OnPremWebApiRequest extends LitElement {
   }
 
   queryParam(param){    
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(decodeURIComponent(window.location.search.replaceAll("amp;", "")));
     return urlParams.get(param); 
   }  
     

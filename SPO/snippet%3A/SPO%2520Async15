@@ -1,0 +1,20 @@
+async function loadSPOApi(appWebUrl, spoApiUrl, jsonPath){    
+    
+    var spExecutor = new SP.RequestExecutor(appWebUrl);
+    const requestInfo = {
+        url: spoApiUrl,
+        method: "GET",
+        headers: { "Accept": "application/json; odata=verbose" }
+    };
+    var response = await spExecutor.executeAsync(requestInfo);
+    const data = JSON.parse(response.d);
+    console.log(response);
+    
+}
+
+var hostWebUrl = 'https://vigneshks.sharepoint.com/sites/Nintex';
+var appWebUrl = 'https://vigneshks-f4d061f0fbd4d4.sharepoint.com/sites/Nintex/FormsApp';
+var spoApiUrl = appWebUrl + "/_api/SP.AppContextSite(@target)/web/title/?@target='" + hostWebUrl + "'";
+var jsonPath = '';
+
+loadSPOApi(appWebUrl, spoApiUrl, jsonPath).then(function(){ console.log('loadWebApi called'); })
