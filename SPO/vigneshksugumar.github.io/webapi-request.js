@@ -1,7 +1,6 @@
-import {LitElement, css, html} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
+import {LitElement, css, html, unsafeHTML} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
 import {JSONPath} from 'https://cdn.jsdelivr.net/npm/jsonpath-plus@10.1.0/dist/index-browser-esm.min.js';
-import handlebars from "./handlebars.min.js";
-
+import Mustache from "https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"
 
 export class OnPremWebApiRequest extends LitElement {
     
@@ -13,7 +12,7 @@ export class OnPremWebApiRequest extends LitElement {
     isIntegratedAuth: {type: Boolean},
     jsonPath: {type: String},
     displayAs: {type: String},
-    handleBarTemplate: {type: String},
+    mustacheTemplate: {type: String},
     outcome: {type: String}
   }   
       
@@ -61,14 +60,14 @@ export class OnPremWebApiRequest extends LitElement {
         displayAs: {
             type: 'string',
             title: 'Display As',
-            enum: ['Label', 'Dropdown', 'Label using Handlebar Template'],
+            enum: ['Label', 'Dropdown', 'Label using Mustache Template'],
             description: 'Provide display type of the control',
             defaultValue: 'Label'
         },
-        handleBarTemplate: {
+        mustacheTemplate: {
           type: 'string',
-          title: 'Handlebar Template',          
-          description: 'Provide handlebar template (applicable for selected display type)',
+          title: 'Mustache Template',          
+          description: 'Provide Mustache template (applicable for selected display type)',
           defaultValue: ''
       },
         outcome: {
@@ -212,8 +211,7 @@ export class OnPremWebApiRequest extends LitElement {
       
       if(response.body != undefined && response.statusCode == 200){   
         try{
-          var jsonData = JSON.parse(response.body); 
-          console.log(jsonData);          
+          var jsonData = JSON.parse(response.body);           
           jsonData = this.filterJson(jsonData);        
         } 
         catch(e)  {
@@ -245,8 +243,7 @@ export class OnPremWebApiRequest extends LitElement {
     
     if(response != undefined && response.status == 200){   
       try{
-        var jsonData = await response.json(); 
-        console.log(jsonData);
+        var jsonData = await response.json();         
         jsonData = this.filterJson(jsonData);        
       } 
       catch(e)  {
@@ -267,8 +264,8 @@ export class OnPremWebApiRequest extends LitElement {
     else if(this.displayAs == "Dropdown"){
       this.constructDropdownTemplate(jsonData)
     } 
-    else if(this.displayAs == "Label using Handlebar Template"){
-      this.constructLabelUsingHandlebarTemplate(jsonData)
+    else if(this.displayAs == "Label using Mustache Template"){
+      this.constructLabelUsingMustacheTemplate(jsonData)
     }         
     this._propagateOutcomeChanges(this.outcome);
   }
@@ -307,26 +304,29 @@ export class OnPremWebApiRequest extends LitElement {
     }
   }
 
-  constructLabelUsingHandlebarTemplate(jsonData){            
-      var outputTemplate = "";
+  constructLabelUsingMustacheTemplate(jsonData){            
+      var rawValue = "";
       var htmlTemplate = html``;
       
       if(typeof jsonData === 'string' || jsonData instanceof String){
-        outputTemplate = jsonData;
+        rawValue = jsonData;
       }    
       if(this.isInt(jsonData)){
-        outputTemplate = jsonData.toString();
+        rawValue = jsonData.toString();
       }
       if(typeof jsonData == 'boolean'){
-        outputTemplate = (jsonData == true ? "true" : "false");
+        rawValue = (jsonData == true ? "true" : "false");
       }
+      if(Array.isArray(jsonData)){
+        rawValue = jsonData;
+      }
+      var jsonTemplate = { data: rawValue }
+      var outputTemplate = Mustache.render(this.mustacheTemplate, jsonTemplate);                     
 
-      const userContent = "This is test";
-
-      htmlTemplate = html`<div class="form-control webapi-control">${userContent}</div>`;
+      htmlTemplate = html`<div class="form-control webapi-control">${unsafeHTML(outputTemplate)}</div>`;
       
-      this.outcome = outputTemplate;      
-      this.message = html`${htmlTemplate}`            
+      this.outcome = rawValue;      
+      this.message = html`${htmlTemplate}`                  
   }
 
   isInt(value) {
@@ -337,8 +337,7 @@ export class OnPremWebApiRequest extends LitElement {
     if(!this.jsonPath){
       this.jsonPath = "$."
     }        
-    if(jsonData){ 
-        console.log(jsonData);
+    if(jsonData){         
         var result = JSONPath({path: this.jsonPath, json: jsonData});        
         if (result.length == 1 && this.jsonPath.endsWith(".")) {
             result = result[0]

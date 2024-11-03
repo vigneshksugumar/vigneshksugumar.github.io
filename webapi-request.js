@@ -1,6 +1,6 @@
-import {LitElement, css, html} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
+import {LitElement, css, html, unsafeHTML} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js';
 import {JSONPath} from 'https://cdn.jsdelivr.net/npm/jsonpath-plus@10.1.0/dist/index-browser-esm.min.js';
-import { Handlebars } from './handlebars-wrapper.js';
+import Mustache from "https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"
 
 export class OnPremWebApiRequest extends LitElement {
     
@@ -12,7 +12,8 @@ export class OnPremWebApiRequest extends LitElement {
     isIntegratedAuth: {type: Boolean},
     jsonPath: {type: String},
     displayAs: {type: String},
-    outcome: {type: String}    
+    mustacheTemplate: {type: String},
+    outcome: {type: String}
   }   
       
   static getMetaConfig() {    
@@ -59,10 +60,16 @@ export class OnPremWebApiRequest extends LitElement {
         displayAs: {
             type: 'string',
             title: 'Display As',
-            enum: ['Label', 'Dropdown'],
+            enum: ['Label', 'Dropdown', 'Label using Mustache Template'],
             description: 'Provide display type of the control',
             defaultValue: 'Label'
         },
+        mustacheTemplate: {
+          type: 'string',
+          title: 'Mustache Template',          
+          description: 'Provide Mustache template (applicable for selected display type)',
+          defaultValue: ''
+      },
         outcome: {
           type: 'string',
           title: 'Outcome',          
@@ -117,23 +124,12 @@ export class OnPremWebApiRequest extends LitElement {
     `
   }
 
-  _webRequestOnLoad() {    
+  _propagateOutcomeChanges(targetValue) {            
     const args = {
          bubbles: true,
          cancelable: false,
          composed: true,         
-         detail:this.outcome,
-     };     
-     const event = new CustomEvent('ntx-value-change', args);
-     this.dispatchEvent(event);             
-   }
-
-   _dropDownOnChange(e) {            
-    const args = {
-         bubbles: true,
-         cancelable: false,
-         composed: true,         
-         detail:e,
+         detail: targetValue,
      };     
      const event = new CustomEvent('ntx-value-change', args);
      this.dispatchEvent(event);          
@@ -215,8 +211,7 @@ export class OnPremWebApiRequest extends LitElement {
       
       if(response.body != undefined && response.statusCode == 200){   
         try{
-          var jsonData = JSON.parse(response.body); 
-          console.log(jsonData);          
+          var jsonData = JSON.parse(response.body);           
           jsonData = this.filterJson(jsonData);        
         } 
         catch(e)  {
@@ -248,8 +243,7 @@ export class OnPremWebApiRequest extends LitElement {
     
     if(response != undefined && response.status == 200){   
       try{
-        var jsonData = await response.json(); 
-        console.log(jsonData);
+        var jsonData = await response.json();         
         jsonData = this.filterJson(jsonData);        
       } 
       catch(e)  {
@@ -269,8 +263,11 @@ export class OnPremWebApiRequest extends LitElement {
     }     
     else if(this.displayAs == "Dropdown"){
       this.constructDropdownTemplate(jsonData)
+    } 
+    else if(this.displayAs == "Label using Mustache Template"){
+      this.constructLabelUsingMustacheTemplate(jsonData)
     }         
-    this._webRequestOnLoad();
+    this._propagateOutcomeChanges(this.outcome);
   }
 
   constructLabelTemplate(jsonData){            
@@ -286,7 +283,7 @@ export class OnPremWebApiRequest extends LitElement {
       if(typeof jsonData == 'boolean'){
         outputTemplate = (jsonData == true ? "true" : "false");
       }
-      htmlTemplate = html`<div class="form-control webapi-control">Oh3! ${outputTemplate}</div>`;
+      htmlTemplate = html`<div class="form-control webapi-control">${outputTemplate}</div>`;
       
       this.outcome = outputTemplate;      
       this.message = html`${htmlTemplate}`            
@@ -299,12 +296,37 @@ export class OnPremWebApiRequest extends LitElement {
         itemTemplates.push(html`<option>${i}</option>`);
       }
       this.message = html`<select class="form-control webapi-control"
-                    @change=${e => this._dropDownOnChange(e.target.value)}>${itemTemplates}</select>
+                    @change=${e => this._propagateOutcomeChanges(e.target.value)}>${itemTemplates}</select>
                       `       
     }
     else{
       this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
     }
+  }
+
+  constructLabelUsingMustacheTemplate(jsonData){            
+      var rawValue = "";
+      var htmlTemplate = html``;
+      
+      if(typeof jsonData === 'string' || jsonData instanceof String){
+        rawValue = jsonData;
+      }    
+      if(this.isInt(jsonData)){
+        rawValue = jsonData.toString();
+      }
+      if(typeof jsonData == 'boolean'){
+        rawValue = (jsonData == true ? "true" : "false");
+      }
+      if(Array.isArray(jsonData)){
+        rawValue = jsonData;
+      }
+      var jsonTemplate = { data: rawValue }
+      var outputTemplate = Mustache.render(this.mustacheTemplate, jsonTemplate);                     
+
+      htmlTemplate = html`<div class="form-control webapi-control">${unsafeHTML(outputTemplate)}</div>`;
+      
+      this.outcome = rawValue;      
+      this.message = html`${htmlTemplate}`                  
   }
 
   isInt(value) {
@@ -315,8 +337,7 @@ export class OnPremWebApiRequest extends LitElement {
     if(!this.jsonPath){
       this.jsonPath = "$."
     }        
-    if(jsonData){ 
-        console.log(jsonData);
+    if(jsonData){         
         var result = JSONPath({path: this.jsonPath, json: jsonData});        
         if (result.length == 1 && this.jsonPath.endsWith(".")) {
             result = result[0]
