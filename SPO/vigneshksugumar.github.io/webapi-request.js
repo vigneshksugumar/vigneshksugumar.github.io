@@ -11,7 +11,8 @@ export class OnPremWebApiRequest extends LitElement {
     isIntegratedAuth: {type: Boolean},
     jsonPath: {type: String},
     displayAs: {type: String},
-    outcome: {type: String}    
+    handleBarTemplate: {type: String},
+    outcome: {type: String}
   }   
       
   static getMetaConfig() {    
@@ -58,10 +59,16 @@ export class OnPremWebApiRequest extends LitElement {
         displayAs: {
             type: 'string',
             title: 'Display As',
-            enum: ['Label', 'Dropdown'],
+            enum: ['Label', 'Dropdown', 'Label using Handlebar Template'],
             description: 'Provide display type of the control',
             defaultValue: 'Label'
         },
+        handleBarTemplate: {
+          type: 'string',
+          title: 'Handlebar Template',          
+          description: 'Provide handlebar template (applicable for selected display type)',
+          defaultValue: ''
+      },
         outcome: {
           type: 'string',
           title: 'Outcome',          
@@ -116,23 +123,12 @@ export class OnPremWebApiRequest extends LitElement {
     `
   }
 
-  _webRequestOnLoad() {    
+  _propagateOutcomeChanges(targetValue) {            
     const args = {
          bubbles: true,
          cancelable: false,
          composed: true,         
-         detail:this.outcome,
-     };     
-     const event = new CustomEvent('ntx-value-change', args);
-     this.dispatchEvent(event);             
-   }
-
-   _dropDownOnChange(e) {            
-    const args = {
-         bubbles: true,
-         cancelable: false,
-         composed: true,         
-         detail:e,
+         detail: targetValue,
      };     
      const event = new CustomEvent('ntx-value-change', args);
      this.dispatchEvent(event);          
@@ -268,8 +264,11 @@ export class OnPremWebApiRequest extends LitElement {
     }     
     else if(this.displayAs == "Dropdown"){
       this.constructDropdownTemplate(jsonData)
+    } 
+    else if(this.displayAs == "Label using Handlebar Template"){
+      this.constructLabelUsingHandlebarTemplate(jsonData)
     }         
-    this._webRequestOnLoad();
+    this._propagateOutcomeChanges(this.outcome);
   }
 
   constructLabelTemplate(jsonData){            
@@ -285,7 +284,7 @@ export class OnPremWebApiRequest extends LitElement {
       if(typeof jsonData == 'boolean'){
         outputTemplate = (jsonData == true ? "true" : "false");
       }
-      htmlTemplate = html`<div class="form-control webapi-control">Oh3! ${outputTemplate}</div>`;
+      htmlTemplate = html`<div class="form-control webapi-control">${outputTemplate}</div>`;
       
       this.outcome = outputTemplate;      
       this.message = html`${htmlTemplate}`            
@@ -298,12 +297,34 @@ export class OnPremWebApiRequest extends LitElement {
         itemTemplates.push(html`<option>${i}</option>`);
       }
       this.message = html`<select class="form-control webapi-control"
-                    @change=${e => this._dropDownOnChange(e.target.value)}>${itemTemplates}</select>
+                    @change=${e => this._propagateOutcomeChanges(e.target.value)}>${itemTemplates}</select>
                       `       
     }
     else{
       this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
     }
+  }
+
+  constructLabelUsingHandlebarTemplate(jsonData){            
+      var outputTemplate = "";
+      var htmlTemplate = html``;
+      
+      if(typeof jsonData === 'string' || jsonData instanceof String){
+        outputTemplate = jsonData;
+      }    
+      if(this.isInt(jsonData)){
+        outputTemplate = jsonData.toString();
+      }
+      if(typeof jsonData == 'boolean'){
+        outputTemplate = (jsonData == true ? "true" : "false");
+      }
+
+      const userContent = "This is test";
+
+      htmlTemplate = html`<div class="form-control webapi-control">${userContent}</div>`;
+      
+      this.outcome = outputTemplate;      
+      this.message = html`${htmlTemplate}`            
   }
 
   isInt(value) {
