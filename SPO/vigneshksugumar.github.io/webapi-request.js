@@ -165,16 +165,21 @@ export class OnPremWebApiRequest extends LitElement {
     } 
   }
 
-  async callApi(){
-      var inputWebApi = this.webApiUrl;
-      inputWebApi = "/_api/web/"
+  async callApi(){      
+      var inputWebApi = this.webApiUrl;      
       if(inputWebApi.indexOf("/_api/web/") == -1 && inputWebApi.indexOf("/_api/site/") == -1 ){
         await this.loadWebApi();
       }
       else{
         var hostWebUrl = this.queryParam("SPHostUrl");
-        var appWebUrl = this.queryParam("SPAppWebUrl");
-        var spoApiUrl = appWebUrl + "/_api/SP.AppContextSite(@target)/web/title/?@target='" + hostWebUrl + "'";        
+        var appWebUrl = this.queryParam("SPAppWebUrl");        
+        var spoApiUrl = appWebUrl + inputWebApi.replace(hostWebUrl, "").replace("/_api/", "/_api/SP.AppContextSite(@target)/")
+        if(inputWebApi.indexOf("?") == -1){
+            spoApiUrl = spoApiUrl + "?@target='" + hostWebUrl + "'";   
+        }
+        else{
+            spoApiUrl = spoApiUrl + "&@target='" + hostWebUrl + "'";   
+        }
         await this.loadSPOApi(appWebUrl, spoApiUrl);
       }
       
@@ -196,10 +201,10 @@ export class OnPremWebApiRequest extends LitElement {
           method: "GET",
           headers: { "Accept": "application/json; odata=verbose" }
       };
-      console.log(appWebUrl, spoApiUrl)
+      
       var response;
       try{ 
-        response = await this.executeAsyncWithPromise(appWebUrl, requestInfo);
+        response = await this.executeAsyncWithPromise(appWebUrl, requestInfo);        
       }
       catch(e){
         response = {}
@@ -210,6 +215,7 @@ export class OnPremWebApiRequest extends LitElement {
       if(response.body != undefined && response.statusCode == 200){   
         try{
           var jsonData = JSON.parse(response.body); 
+          console.log(jsonData);          
           jsonData = this.filterJson(jsonData);        
         } 
         catch(e)  {
@@ -242,6 +248,7 @@ export class OnPremWebApiRequest extends LitElement {
     if(response != undefined && response.status == 200){   
       try{
         var jsonData = await response.json(); 
+        console.log(jsonData);
         jsonData = this.filterJson(jsonData);        
       } 
       catch(e)  {
@@ -253,18 +260,6 @@ export class OnPremWebApiRequest extends LitElement {
       this.message = html`WebApi request failed: ${response.status} - ${response.statusText == '' ? 'Error!' : response.statusText}`
     }
     
-  }
-
-  async loadSPOApi(appWebUrl, spoApiUrl){        
-      var spExecutor = new SP.RequestExecutor(appWebUrl);
-      const requestInfo = {
-          url: spoApiUrl,
-          method: "GET",
-          headers: { "Accept": "application/json; odata=verbose" }
-      };
-      var response = await executeAsyncWithPromise(appWebUrl, requestInfo);
-      const data = JSON.parse(response.body);    
-      return data;    
   }
 
   plugToForm(jsonData){      
@@ -315,11 +310,12 @@ export class OnPremWebApiRequest extends LitElement {
     return !isNaN(value) && (function(x) { return (x | 0) === x; })(parseFloat(value))
   }
 
-  filterJson(jsonData){            
+  filterJson(jsonData){     
     if(!this.jsonPath){
       this.jsonPath = "$."
     }        
     if(jsonData){ 
+        console.log(jsonData);
         var result = JSONPath({path: this.jsonPath, json: jsonData});        
         if (result.length == 1 && this.jsonPath.endsWith(".")) {
             result = result[0]

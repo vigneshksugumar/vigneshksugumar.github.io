@@ -1,0 +1,7 @@
+var pluginWebApiUrl = "https://vigneshks.sharepoint.com/sites/Nintex/_api/web/lists/getbytitle('SampleList')/items";
+var hostWebUrl = "https://vigneshks.sharepoint.com/sites/Nintex"
+var appWebUrl = "https://vigneshks-f4d061f0fbd4d4.sharepoint.com/sites/Nintex/FormsApp";
+var spoApiUrl = appWebUrl + "/_api/SP.AppContextSite(@target)/web/title/?@target='" + hostWebUrl + "'";
+console.logspoApiUrl();
+spoApiUrl = pluginWebApiUrl.replace(hostWebUrl, "").replace("/_api/", "/_api/SP.AppContextSite(@target)/")
+console.log(spoApiUrl)

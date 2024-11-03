@@ -1,0 +1,25 @@
+async function getSharePointListItems() {
+    try {
+        const endpoint = `${siteUrl}/_api/web/lists/getbytitle('${listName}')/items`;
+        
+        const response = await fetch(endpoint, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        var jsonData = JSON.stringify(data.d.results, null, 4);
+        document.body.innerHTML = jsonData;  
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+getSharePointListItems(window.location.href);
