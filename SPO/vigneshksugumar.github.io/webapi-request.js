@@ -83,18 +83,17 @@ export class OnPremWebApiRequest extends LitElement {
 
   static styles = css`
     select.webapi-control {            
-      border-radius: var(--ntx-form-theme-border-radius);
-      font-size: var(--ntx-form-theme-text-input-size);
-      caret-color: var(--ntx-form-theme-color-input-text);
-      color: var(--ntx-form-theme-color-input-text);
+      border: 1px solid #898f94;
       border-color: var(--ntx-form-theme-color-border);
-      font-family: var(--ntx-form-theme-font-family);
+      border-radius: var(--ntx-form-theme-border-radius);
       background-color: var(--ntx-form-theme-color-input-background);
+      font-family: var(--ntx-form-theme-font-family);
+      font-size: var(--ntx-form-theme-text-input-size);      
       line-height: var(--ntx-form-control-line-height, 1.25);
       min-height: 33px;
       height: auto;
+      color: var(--ntx-form-theme-color-input-text);
       padding: 0.55rem;
-      border: 1px solid #898f94;
       min-width: 70px;
       position: relative;
       display: block;
@@ -105,10 +104,23 @@ export class OnPremWebApiRequest extends LitElement {
       background-repeat: no-repeat;
       background-position: right 0.7rem top 50%;
       background-size: 0.65rem auto;
+      caret-color: var(--ntx-form-theme-color-input-text);
     }
     div.webapi-control{
       padding: 4px 0px 3px;
       color: #000;
+    }
+    input.webapi-control-display{
+      border: 1px solid #ccc;
+      border-color: var(--ntx-form-theme-color-border);
+      border-radius: var(--ntx-form-theme-border-radius);
+      background-color: var(--ntx-form-theme-color-input-background-readonly);
+      padding: 6px 12px;
+      color: var(--ntx-form-theme-color-input-text);
+      font-family: var(--ntx-form-theme-font-family);
+      background: var(--ntx-form-theme-color-input-background);
+      font-size: var(--ntx-form-theme-text-input-size);    
+      opacity: 1;
     }
   `;
 
@@ -139,8 +151,21 @@ export class OnPremWebApiRequest extends LitElement {
     if(this.pluginLoaded){
       return;
     }    
-    this.pluginLoaded = true;
-    super.connectedCallback();          
+    this.pluginLoaded = true;    
+    super.connectedCallback();            
+    var formMode = this.queryParam("mode");
+    if(formMode == 0){
+      this.newFormUI();
+    }
+    else if(formMode == 1){
+
+    }
+    else if(formMode == 2){
+      this.displayFormUI();
+    }
+  }
+
+  newFormUI(){
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
       return;      
@@ -162,6 +187,10 @@ export class OnPremWebApiRequest extends LitElement {
     } 
   }
 
+  displayFormUI(){
+    this.constructDisplayTemplate();
+  }
+
   async callApi(){      
       var inputWebApi = this.webApiUrl;      
       if(inputWebApi.indexOf("/_api/web/") == -1 && inputWebApi.indexOf("/_api/site/") == -1 ){
@@ -178,8 +207,7 @@ export class OnPremWebApiRequest extends LitElement {
             spoApiUrl = spoApiUrl + "&@target='" + hostWebUrl + "'";   
         }
         await this.loadSPOApi(appWebUrl, spoApiUrl);
-      }
-      
+      }      
   }
 
   async executeAsyncWithPromise(appWebUrl, requestInfo) {
@@ -268,6 +296,26 @@ export class OnPremWebApiRequest extends LitElement {
       this.constructLabelUsingMustacheTemplate(jsonData)
     }         
     this._propagateOutcomeChanges(this.outcome);
+  }
+
+  constructDisplayTemplate(){ 
+    console.log('constructDisplayTemplate')    
+    var outputTemplate = "";
+    var htmlTemplate = html``;
+    var outcomeValue = this.outcome;
+    
+    if(typeof outcomeValue === 'string' || jsonData instanceof String){
+      outputTemplate = outcomeValue;
+    }    
+    if(this.isInt(outcomeValue)){
+      outputTemplate = outcomeValue.toString();
+    }
+    if(typeof outcomeValue == 'boolean'){
+      outputTemplate = (outcomeValue == true ? "true" : "false");
+    }
+    htmlTemplate = html`<input class="form-control webapi-control-display" value="${outputTemplate}" />`;
+        
+    this.message = html`${htmlTemplate}`            
   }
 
   constructLabelTemplate(jsonData){            

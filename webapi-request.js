@@ -140,7 +140,8 @@ export class OnPremWebApiRequest extends LitElement {
       return;
     }    
     this.pluginLoaded = true;
-    super.connectedCallback();          
+    super.connectedCallback();    
+    console.log(this.outcome)      
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
       return;      

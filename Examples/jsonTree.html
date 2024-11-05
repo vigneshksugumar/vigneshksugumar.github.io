@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jsonTreeViewer</title>
+    <meta charset="utf-8" />
+    
+    <link href="libs/jsonTree/jsonTree.css" rel="stylesheet" />
+    <script src="libs/jsonTree/jsonTree.js"></script>
+</head>
+<body class="jsontree_bg1">    
+    
+    <div id="jsonTreeWrapper">
+        
+    </div>           
+
+    <style>
+        ul, li{ list-style: none;}
+    </style>
+    <script>
+        var wrapper = document.getElementById("jsonTreeWrapper");
+        var data = '{\
+            "firstName": "John",\
+            "lastName": "Smith",\
+            "isAlive": true,\
+            "age": 25,\
+            "company": null,\
+            "height_cm": 167.64,\
+            "address": {\
+                "streetAddress": "21 2nd Street",\
+                "city": "New York",\
+                "state": "NY",\
+                "postalCode": "10021-3100"\
+            },\
+            "phoneNumbers": [\
+                {\
+                    "type": "home",\
+                    "number": "212 555-1234"\
+                },\
+                {\
+                    "type": "fax",\
+                    "number": "646 555-4567"\
+                }\
+            ]\
+        }';
+        try {
+            var data = JSON.parse(data);
+        } catch (e) {}
+        
+        var tree = jsonTree.create(data, wrapper);        
+    </script>
+</body>
+</html>
