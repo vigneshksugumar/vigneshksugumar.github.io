@@ -74,7 +74,7 @@ export class OnPremWebApiRequest extends LitElement {
         outcome: {
           type: 'string',
           title: 'Outcome',          
-        	description: 'This value will be overridden',
+        	description: 'If set, the value will be overridden by api response',
           isValueField: true
         }
       },
