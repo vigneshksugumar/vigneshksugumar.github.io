@@ -13,6 +13,7 @@ export class OnPremWebApiRequest extends LitElement {
     jsonPath: {type: String},
     displayAs: {type: String},
     mustacheTemplate: {type: String},
+    currentPageMode: {type: String},
     outcome: {type: String}
   }   
       
@@ -140,8 +141,9 @@ export class OnPremWebApiRequest extends LitElement {
       return;
     }    
     this.pluginLoaded = true;
-    super.connectedCallback();    
-    console.log(this.outcome)      
+    super.connectedCallback(); 
+    var currentPageModeIndex = this.queryParam("mode");    
+    this.currentPageMode = (currentPageModeIndex == 0 ? "New" : (currentPageModeIndex == 1 ? "Edit" : "Display"))
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
       return;      
@@ -290,19 +292,31 @@ export class OnPremWebApiRequest extends LitElement {
       this.message = html`${htmlTemplate}`            
   }
 
-  constructDropdownTemplate(items){
-    if(Array.isArray(items)){
-      var itemTemplates = [];
-      for (var i of items) {
-        itemTemplates.push(html`<option>${i}</option>`);
+  constructDropdownTemplate(items){    
+    if(this.currentPageMode == 'New' || this.currentPageMode == 'Edit'){
+      if(Array.isArray(items)){
+        var itemTemplates = [];
+        for (var i of items) {
+          if(this.currentPageMode == 'Edit' && i == this.outcome){
+            itemTemplates.push(html`<option selected>${i}</option>`);
+          }          
+          else{
+            itemTemplates.push(html`<option>${i}</option>`);
+          }          
+        }
+        
+        this.message = html`<select class="form-control webapi-control" @change=${e => this._propagateOutcomeChanges(e.target.value)} >
+                              ${itemTemplates}
+                            </select>
+                        `       
       }
-      this.message = html`<select class="form-control webapi-control"
-                    @change=${e => this._propagateOutcomeChanges(e.target.value)}>${itemTemplates}</select>
-                      `       
-    }
+      else{
+        this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
+      }
+    }    
     else{
-      this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
-    }
+      this.constructLabelTemplate(this.outcome);
+    }    
   }
 
   constructLabelUsingMustacheTemplate(jsonData){            
