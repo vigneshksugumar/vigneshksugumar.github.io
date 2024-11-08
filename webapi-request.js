@@ -20,7 +20,7 @@ export class OnPremWebApiRequest extends LitElement {
   static getMetaConfig() {    
     return {
       groupName : "In DEV - Do Not Use",
-      controlName: 'WebApi Request',
+      controlName: 'WebApi Request Dev',
       description : 'Make Web Api request including OnPrem',
       iconUrl : 'data-lookup',
       searchTerms : ['web', 'webapi', 'pnc'],
