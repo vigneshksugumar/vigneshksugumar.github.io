@@ -21,9 +21,9 @@ export class OnPremWebApiRequest extends LitElement {
     return {
       groupName : "In DEV - Do Not Use",
       controlName: 'WebApi Request Dev',
-      description : 'Make Web Api request including OnPrem',
+      description : 'Make Web Api request including OnPrem, SPO',
       iconUrl : 'data-lookup',
-      searchTerms : ['web', 'webapi', 'pnc'],
+      searchTerms : ['web', 'webapi'],
       fallbackDisableSubmit: false,
       version: '1.2',
       pluginAuthor : 'Vignesh Sugumar',
