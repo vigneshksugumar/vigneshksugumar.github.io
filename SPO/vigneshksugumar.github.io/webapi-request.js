@@ -13,6 +13,7 @@ export class OnPremWebApiRequest extends LitElement {
     jsonPath: {type: String},
     displayAs: {type: String},
     mustacheTemplate: {type: String},
+    currentPageMode: {type: String},
     outcome: {type: String}
   }   
       
@@ -73,7 +74,7 @@ export class OnPremWebApiRequest extends LitElement {
         outcome: {
           type: 'string',
           title: 'Outcome',          
-        	description: 'This value will be overridden',
+        	description: 'If set, the value will be overridden by api response',
           isValueField: true
         }
       },
@@ -83,17 +84,18 @@ export class OnPremWebApiRequest extends LitElement {
 
   static styles = css`
     select.webapi-control {            
-      border: 1px solid #898f94;
-      border-color: var(--ntx-form-theme-color-border);
       border-radius: var(--ntx-form-theme-border-radius);
-      background-color: var(--ntx-form-theme-color-input-background);
+      font-size: var(--ntx-form-theme-text-input-size);
+      caret-color: var(--ntx-form-theme-color-input-text);
+      color: var(--ntx-form-theme-color-input-text);
+      border-color: var(--ntx-form-theme-color-border);
       font-family: var(--ntx-form-theme-font-family);
-      font-size: var(--ntx-form-theme-text-input-size);      
+      background-color: var(--ntx-form-theme-color-input-background);
       line-height: var(--ntx-form-control-line-height, 1.25);
       min-height: 33px;
       height: auto;
-      color: var(--ntx-form-theme-color-input-text);
       padding: 0.55rem;
+      border: 1px solid #898f94;
       min-width: 70px;
       position: relative;
       display: block;
@@ -104,23 +106,10 @@ export class OnPremWebApiRequest extends LitElement {
       background-repeat: no-repeat;
       background-position: right 0.7rem top 50%;
       background-size: 0.65rem auto;
-      caret-color: var(--ntx-form-theme-color-input-text);
     }
     div.webapi-control{
       padding: 4px 0px 3px;
       color: #000;
-    }
-    input.webapi-control-display{
-      border: 1px solid #ccc;
-      border-color: var(--ntx-form-theme-color-border);
-      border-radius: var(--ntx-form-theme-border-radius);
-      background-color: var(--ntx-form-theme-color-input-background-readonly);
-      padding: 6px 12px;
-      color: var(--ntx-form-theme-color-input-text);
-      font-family: var(--ntx-form-theme-font-family);
-      background: var(--ntx-form-theme-color-input-background);
-      font-size: var(--ntx-form-theme-text-input-size);    
-      opacity: 1;
     }
   `;
 
@@ -151,21 +140,10 @@ export class OnPremWebApiRequest extends LitElement {
     if(this.pluginLoaded){
       return;
     }    
-    this.pluginLoaded = true;    
-    super.connectedCallback();            
-    var formMode = this.queryParam("mode");
-    if(formMode == 0){
-      this.newFormUI();
-    }
-    else if(formMode == 1){
-
-    }
-    else if(formMode == 2){
-      this.displayFormUI();
-    }
-  }
-
-  newFormUI(){
+    this.pluginLoaded = true;
+    super.connectedCallback();    
+    var currentPageModeIndex = this.queryParam("mode");    
+    this.currentPageMode = (currentPageModeIndex == 0 ? "New" : (currentPageModeIndex == 1 ? "Edit" : "Display"))
     if(window.location.pathname == "/")  {
       this.message = html`Please configure control`      
       return;      
@@ -187,10 +165,6 @@ export class OnPremWebApiRequest extends LitElement {
     } 
   }
 
-  displayFormUI(){
-    this.constructDisplayTemplate();
-  }
-
   async callApi(){      
       var inputWebApi = this.webApiUrl;      
       if(inputWebApi.indexOf("/_api/web/") == -1 && inputWebApi.indexOf("/_api/site/") == -1 ){
@@ -207,7 +181,8 @@ export class OnPremWebApiRequest extends LitElement {
             spoApiUrl = spoApiUrl + "&@target='" + hostWebUrl + "'";   
         }
         await this.loadSPOApi(appWebUrl, spoApiUrl);
-      }      
+      }
+      
   }
 
   async executeAsyncWithPromise(appWebUrl, requestInfo) {
@@ -298,26 +273,6 @@ export class OnPremWebApiRequest extends LitElement {
     this._propagateOutcomeChanges(this.outcome);
   }
 
-  constructDisplayTemplate(){ 
-    console.log('constructDisplayTemplate')    
-    var outputTemplate = "";
-    var htmlTemplate = html``;
-    var outcomeValue = this.outcome;
-    
-    if(typeof outcomeValue === 'string' || jsonData instanceof String){
-      outputTemplate = outcomeValue;
-    }    
-    if(this.isInt(outcomeValue)){
-      outputTemplate = outcomeValue.toString();
-    }
-    if(typeof outcomeValue == 'boolean'){
-      outputTemplate = (outcomeValue == true ? "true" : "false");
-    }
-    htmlTemplate = html`<input class="form-control webapi-control-display" value="${outputTemplate}" />`;
-        
-    this.message = html`${htmlTemplate}`            
-  }
-
   constructLabelTemplate(jsonData){            
       var outputTemplate = "";
       var htmlTemplate = html``;
@@ -337,19 +292,31 @@ export class OnPremWebApiRequest extends LitElement {
       this.message = html`${htmlTemplate}`            
   }
 
-  constructDropdownTemplate(items){
-    if(Array.isArray(items)){
-      var itemTemplates = [];
-      for (var i of items) {
-        itemTemplates.push(html`<option>${i}</option>`);
+  constructDropdownTemplate(items){    
+    if(this.currentPageMode == 'New' || this.currentPageMode == 'Edit'){
+      if(Array.isArray(items)){
+        var itemTemplates = [];
+        for (var i of items) {
+          if(this.currentPageMode == 'Edit' && i == this.outcome){
+            itemTemplates.push(html`<option selected>${i}</option>`);
+          }          
+          else{
+            itemTemplates.push(html`<option>${i}</option>`);
+          }          
+        }
+        
+        this.message = html`<select class="form-control webapi-control" @change=${e => this._propagateOutcomeChanges(e.target.value)} >
+                              ${itemTemplates}
+                            </select>
+                        `       
       }
-      this.message = html`<select class="form-control webapi-control"
-                    @change=${e => this._propagateOutcomeChanges(e.target.value)}>${itemTemplates}</select>
-                      `       
-    }
+      else{
+        this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
+      }
+    }    
     else{
-      this.message = html`<p>WebApi response not in array. Check WebApi Configuration</p>`
-    }
+      this.constructLabelTemplate(this.outcome);
+    }    
   }
 
   constructLabelUsingMustacheTemplate(jsonData){            
@@ -364,12 +331,12 @@ export class OnPremWebApiRequest extends LitElement {
       }
       if(typeof jsonData == 'boolean'){
         rawValue = (jsonData == true ? "true" : "false");
-      }
+      }      
       if(Array.isArray(jsonData)){
-        rawValue = jsonData;
+        rawValue = jsonData;        
       }
-      var jsonTemplate = { data: rawValue }
-      var outputTemplate = Mustache.render(this.mustacheTemplate, jsonTemplate);                     
+            
+      var outputTemplate = Mustache.render(this.mustacheTemplate, rawValue);      
 
       htmlTemplate = html`<div class="form-control webapi-control">${unsafeHTML(outputTemplate)}</div>`;
       

@@ -335,8 +335,8 @@ export class OnPremWebApiRequest extends LitElement {
       if(Array.isArray(jsonData)){
         rawValue = jsonData;
       }
-      var jsonTemplate = { data: rawValue }
-      var outputTemplate = Mustache.render(this.mustacheTemplate, jsonTemplate);                     
+      
+      var outputTemplate = Mustache.render(this.mustacheTemplate, rawValue);                     
 
       htmlTemplate = html`<div class="form-control webapi-control">${unsafeHTML(outputTemplate)}</div>`;
       
