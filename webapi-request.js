@@ -377,4 +377,4 @@ export class OnPremWebApiRequest extends LitElement {
     
 }
 
-customElements.define('webapi-request', OnPremWebApiRequest);
+customElements.define('webapi-request-dev', OnPremWebApiRequest);
