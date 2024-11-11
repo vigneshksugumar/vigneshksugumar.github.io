@@ -2,7 +2,7 @@ import {LitElement, css, html, unsafeHTML} from 'https://cdn.jsdelivr.net/gh/lit
 import {JSONPath} from 'https://cdn.jsdelivr.net/npm/jsonpath-plus@10.1.0/dist/index-browser-esm.min.js';
 import Mustache from "https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"
 
-export class OnPremWebApiRequest extends LitElement {
+export class OncWebApiRequest extends LitElement {
     
   static properties = {  
     pluginLoaded : {type: Boolean},  
@@ -19,11 +19,11 @@ export class OnPremWebApiRequest extends LitElement {
       
   static getMetaConfig() {    
     return {
-      groupName : "In DEV - Do Not Use",
-      controlName: 'WebApi Request',
-      description : 'Make Web Api request including OnPrem',
+      groupName : "ONC DEV - Dont Use",
+      controlName: 'WebApi Request Dev',
+      description : 'Make Web Api request including OnPrem, SPO',
       iconUrl : 'data-lookup',
-      searchTerms : ['web', 'webapi', 'pnc'],
+      searchTerms : ['web', 'webapi'],
       fallbackDisableSubmit: false,
       version: '1.2',
       pluginAuthor : 'Vignesh Sugumar',
@@ -141,7 +141,7 @@ export class OnPremWebApiRequest extends LitElement {
       return;
     }    
     this.pluginLoaded = true;
-    super.connectedCallback();    
+    super.connectedCallback(); 
     var currentPageModeIndex = this.queryParam("mode");    
     this.currentPageMode = (currentPageModeIndex == 0 ? "New" : (currentPageModeIndex == 1 ? "Edit" : "Display"))
     if(window.location.pathname == "/")  {
@@ -331,12 +331,12 @@ export class OnPremWebApiRequest extends LitElement {
       }
       if(typeof jsonData == 'boolean'){
         rawValue = (jsonData == true ? "true" : "false");
-      }      
-      if(Array.isArray(jsonData)){
-        rawValue = jsonData;        
       }
-            
-      var outputTemplate = Mustache.render(this.mustacheTemplate, rawValue);      
+      if(Array.isArray(jsonData)){
+        rawValue = jsonData;
+      }
+      
+      var outputTemplate = Mustache.render(this.mustacheTemplate, rawValue);                     
 
       htmlTemplate = html`<div class="form-control webapi-control">${unsafeHTML(outputTemplate)}</div>`;
       
@@ -377,4 +377,4 @@ export class OnPremWebApiRequest extends LitElement {
     
 }
 
-customElements.define('webapi-request', OnPremWebApiRequest);
+customElements.define('onc-webapi-request-dev', OncWebApiRequest);
